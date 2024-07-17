@@ -11,5 +11,6 @@ internal static class BookStoresEndpoints
             .WithTags(Tags);
 
         group.MapEndpoint<CreateBookStoreEndpoint>();
+        group.MapEndpoint<UpdateBookStoreEndpoint>();
     }
 }

@@ -9,9 +9,9 @@ public sealed class CreateBookStoreHandler(
     IClock clock,
     IContext context,
     IBookStoreRepository bookStoreRepository
-) : ICommandHandler<CreateBookStoreCommand>
+) : ICommandHandler<CreateBookStoreCommand,Guid>
 {
-    public async Task HandleAsync(CreateBookStoreCommand command)
+    public async Task<Guid> HandleAsync(CreateBookStoreCommand command)
     {
         var userAlreadyOwnsOrganization =
             await bookStoreRepository.UserAlreadyOwnsOrganizationAsync(context.Identity.Id);
@@ -25,5 +25,8 @@ public sealed class CreateBookStoreHandler(
         );
 
         await bookStoreRepository.AddAsync(bookStore);
+        return bookStore.Id;
     }
+
+
 }
