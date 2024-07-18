@@ -12,7 +12,7 @@ public class UpdateBookStoreEndpoint : IEndpoint
     {
         app.MapPut("{id:guid}", Handle)
             .RequireAuthorization()
-            .WithSummary("Update book store");
+            .WithSummary("Update a book store");
     }
 
     private static async Task<Ok<Response>> Handle(
@@ -28,9 +28,10 @@ public class UpdateBookStoreEndpoint : IEndpoint
             request.Description
         );
 
-        await commandDispatcher.DispatchAsync(command, ct);
+        //await commandDispatcher.DispatchAsync(command, ct);
+        var result = await commandDispatcher.DispatchAsync<UpdateBookStoreCommand, Guid>(command, ct);
 
-        return TypedResults.Ok(new Response(Guid.NewGuid()));
+        return TypedResults.Ok(new Response(result));
     }
 
     internal sealed record Response(
@@ -39,7 +40,6 @@ public class UpdateBookStoreEndpoint : IEndpoint
 
     private sealed class Request
     {
-        [Required] public Guid Id { get; init; }
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
         [Required] public string Name { get; init; }
 

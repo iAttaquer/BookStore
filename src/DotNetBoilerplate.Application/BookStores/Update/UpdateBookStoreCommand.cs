@@ -2,5 +2,5 @@
 
 namespace DotNetBoilerplate.Application.BookStores.Update;
 
-public sealed record UpdateBookStoreCommand(Guid Id, string Name, string Description) : ICommand;
+public sealed record UpdateBookStoreCommand(Guid Id, string Name, string Description) : ICommand<Guid>;
 

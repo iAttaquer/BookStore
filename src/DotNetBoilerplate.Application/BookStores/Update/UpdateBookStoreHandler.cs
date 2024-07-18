@@ -8,9 +8,9 @@ namespace DotNetBoilerplate.Application.BookStores.Update;
 public sealed class UpdateBookStoreHandler(
     IContext context,
     IBookStoreRepository bookStoreRepository
-) : ICommandHandler<UpdateBookStoreCommand>
+) : ICommandHandler<UpdateBookStoreCommand,Guid>
 {
-    public async Task HandleAsync(UpdateBookStoreCommand command)
+    public async Task<Guid> HandleAsync(UpdateBookStoreCommand command)
     {
         var bookStore = await bookStoreRepository.GetByIdAsync(command.Id);
         if (bookStore is null)
@@ -23,5 +23,6 @@ public sealed class UpdateBookStoreHandler(
         );
 
         await bookStoreRepository.UpdateAsync(bookStore);
+        return bookStore.Id;
     }
 }
