@@ -1,5 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using DotNetBoilerplate.Shared.Commands;
+using DotNetBoilerplate.Shared.Queries;
 using DotNetBoilerplate.Shared.Events;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,6 +13,7 @@ public static class Extensions
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
         services.AddCommands();
+        services.AddQueries();
         services.AddDomainEventHandlers();
         services.AddDomainNotificationHandlers();
 

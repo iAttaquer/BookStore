@@ -9,4 +9,6 @@ public interface IBookStoreRepository
     Task UpdateAsync(BookStore bookStore);
 
     Task<bool> UserAlreadyOwnsOrganizationAsync(Guid ownerId);
+
+    Task<IEnumerable<BookStore>> GetAll();
 }
