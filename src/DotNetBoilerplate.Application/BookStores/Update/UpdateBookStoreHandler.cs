@@ -5,7 +5,7 @@ using DotNetBoilerplate.Shared.Abstractions.Contexts;
 
 namespace DotNetBoilerplate.Application.BookStores.Update;
 
-public sealed class UpdateBookStoreHandler(
+internal sealed class UpdateBookStoreHandler(
     IContext context,
     IBookStoreRepository bookStoreRepository
 ) : ICommandHandler<UpdateBookStoreCommand,Guid>

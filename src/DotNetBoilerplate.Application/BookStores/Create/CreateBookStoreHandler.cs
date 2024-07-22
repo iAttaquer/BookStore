@@ -5,7 +5,7 @@ using DotNetBoilerplate.Shared.Abstractions.Time;
 
 namespace DotNetBoilerplate.Application.BookStores.Create;
 
-public sealed class CreateBookStoreHandler(
+internal sealed class CreateBookStoreHandler(
     IClock clock,
     IContext context,
     IBookStoreRepository bookStoreRepository
