@@ -14,15 +14,17 @@ public class GetBookStoreByIdEndpoint : IEndpoint
             .WithSummary("Browse book store by Id");
     }
 
-    private static async Task<Ok<BookStoreDto>> Handle(
+    private static async Task<Results<Ok<BookStoreDto>, NotFound>> Handle(
         [FromRoute] Guid id,
         [FromServices] IQueryDispatcher queryDispatcher,
         CancellationToken ct
     )
     {
         var query = new GetBookStoreByIdQuery(id);
-
+        
         var result = await queryDispatcher.QueryAsync(query, ct);
+
+        if (result is null) return TypedResults.NotFound();
 
         return TypedResults.Ok(result);
     }

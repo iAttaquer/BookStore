@@ -12,7 +12,7 @@ internal sealed class GetBookStoreByIdHandler(
     {
         var bookStore = await bookStoreRepository.GetByIdAsync(query.Id);
         if (bookStore is null)
-            throw new BookStoreNotFoundException();
+            return null;
 
         return new BookStoreDto(
                 bookStore.Id,
