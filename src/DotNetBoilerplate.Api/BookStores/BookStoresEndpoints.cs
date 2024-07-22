@@ -1,4 +1,6 @@
-﻿namespace DotNetBoilerplate.Api.BookStrores;
+﻿using DotNetBoilerplate.Api.BookStores;
+
+namespace DotNetBoilerplate.Api.BookStrores;
 
 internal static class BookStoresEndpoints
 {
@@ -11,6 +13,8 @@ internal static class BookStoresEndpoints
             .WithTags(Tags);
 
         group.MapEndpoint<CreateBookStoreEndpoint>()
-            .MapEndpoint<UpdateBookStoreEndpoint>();
+            .MapEndpoint<UpdateBookStoreEndpoint>()
+            .MapEndpoint<BrowseBookStoreEndpoint>()
+            .MapEndpoint<GetBookStoreByIdEndpoint>();
     }
 }
