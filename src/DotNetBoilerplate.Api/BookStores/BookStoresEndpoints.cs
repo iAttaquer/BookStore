@@ -10,6 +10,7 @@ internal static class BookStoresEndpoints
         var group = app.MapGroup(BasePath)
             .WithTags(Tags);
 
-        group.MapEndpoint<CreateBookStoreEndpoint>();
+        group.MapEndpoint<CreateBookStoreEndpoint>()
+            .MapEndpoint<UpdateBookStoreEndpoint>();
     }
 }

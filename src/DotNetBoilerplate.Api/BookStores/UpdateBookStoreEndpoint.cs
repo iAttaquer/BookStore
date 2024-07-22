@@ -1,32 +1,35 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using DotNetBoilerplate.Application.BookStores.Create;
+using DotNetBoilerplate.Application.BookStores.Update;
 using DotNetBoilerplate.Shared.Abstractions.Commands;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DotNetBoilerplate.Api.BookStrores;
 
-public class CreateBookStoreEndpoint : IEndpoint
+public class UpdateBookStoreEndpoint : IEndpoint
 {
     public static void Map(IEndpointRouteBuilder app)
     {
-        app.MapPost("", Handle)
+        app.MapPut("{id:guid}", Handle)
             .RequireAuthorization()
-            .WithSummary("Create a new book store");
+            .WithSummary("Update a book store");
     }
 
     private static async Task<Ok<Response>> Handle(
+        [FromRoute] Guid id,
         [FromBody] Request request,
         [FromServices] ICommandDispatcher commandDispatcher,
         CancellationToken ct
     )
     {
-        var command = new CreateBookStoreCommand(
+        var command = new UpdateBookStoreCommand(
+            id,
             request.Name,
             request.Description
         );
 
-        var result = await commandDispatcher.DispatchAsync<CreateBookStoreCommand, Guid>(command, ct);
+        //await commandDispatcher.DispatchAsync(command, ct);
+        var result = await commandDispatcher.DispatchAsync<UpdateBookStoreCommand, Guid>(command, ct);
 
         return TypedResults.Ok(new Response(result));
     }

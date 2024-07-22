@@ -37,4 +37,17 @@ public sealed class BookStore
             OwnerId = ownerId
         };
     }
+
+    public void Update(
+        string name,
+        string description,
+        Guid ownerId
+    )
+    {
+        if (OwnerId != ownerId)
+            throw new UserCanNotUpdateOrganizationException();
+
+        Name = name;
+        Description = description;
+    }
 }

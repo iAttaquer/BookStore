@@ -2,4 +2,4 @@
 
 namespace DotNetBoilerplate.Application.BookStores.Create;
 
-public sealed record CreateBookStoreCommand(string Name, string Description) : ICommand;
+public sealed record CreateBookStoreCommand(string Name, string Description) : ICommand<Guid>;
