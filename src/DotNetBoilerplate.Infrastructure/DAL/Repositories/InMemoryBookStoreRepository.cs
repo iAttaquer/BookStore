@@ -1,4 +1,5 @@
 ﻿using DotNetBoilerplate.Core.BookStores;
+using DotNetBoilerplate.Core.Users;
 
 namespace DotNetBoilerplate.Infrastructure.DAL.Repositories;
 
@@ -25,13 +26,13 @@ internal sealed class InMemoryBookStoreRepository : IBookStoreRepository
         return Task.CompletedTask;
     }
 
-    public Task<bool> UserAlreadyOwnsOrganizationAsync(Guid ownerId)
-    {
-        return Task.FromResult(_bookStores.Any(x => x.OwnerId == ownerId));
-    }
-
     public Task<IEnumerable<BookStore>> GetAll()
     {
         return Task.FromResult(_bookStores.AsEnumerable());
+    }
+
+    public Task<bool> UserAlreadyOwnsOrganizationAsync(UserId ownerId)
+    {
+        return Task.FromResult(_bookStores.Any(x => x.OwnerId == ownerId));
     }
 }
