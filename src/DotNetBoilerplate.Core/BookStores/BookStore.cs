@@ -1,11 +1,12 @@
 ﻿using DotNetBoilerplate.Core.BookStores.Exceptions;
+using DotNetBoilerplate.Core.Users;
+
 namespace DotNetBoilerplate.Core.BookStores;
 
 public sealed class BookStore
 {
     private BookStore()
     {
-
     }
 
     public Guid Id { get; private set; }
@@ -15,7 +16,7 @@ public sealed class BookStore
 
     public DateTime CreatedAt { get; private set; }
 
-    public Guid OwnerId { get; private set; }
+    public UserId OwnerId { get; private set; }
 
     public static BookStore Create(
         string name,

@@ -3,6 +3,7 @@ using System;
 using DotNetBoilerplate.Infrastructure.DAL.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DotNetBoilerplate.Infrastructure.DAL.Migrations
 {
     [DbContext(typeof(DotNetBoilerplateWriteDbContext))]
-    partial class DotNetBoilerplateWriteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240723081033_Add-BookStore")]
+    partial class AddBookStore
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

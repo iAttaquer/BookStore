@@ -1,4 +1,6 @@
-﻿namespace DotNetBoilerplate.Core.BookStores;
+﻿using DotNetBoilerplate.Core.Users;
+
+namespace DotNetBoilerplate.Core.BookStores;
 
 public interface IBookStoreRepository
 {
@@ -8,7 +10,7 @@ public interface IBookStoreRepository
 
     Task UpdateAsync(BookStore bookStore);
 
-    Task<bool> UserAlreadyOwnsOrganizationAsync(Guid ownerId);
+    Task<bool> UserAlreadyOwnsOrganizationAsync(UserId ownerId);
 
     Task<IEnumerable<BookStore>> GetAll();
 }
