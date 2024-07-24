@@ -40,4 +40,18 @@ public sealed class Book
             BookStoreId = bookStoreId
         };
     }
+    public void Update(
+        string title,
+        string writer,
+        string genre,
+        int year,
+        string description
+        )
+    {
+        Title = title;
+        Writer = writer;
+        Genre = genre;
+        Year = year;
+        Description = description;
+    }
 }
