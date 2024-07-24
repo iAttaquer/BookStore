@@ -36,4 +36,9 @@ internal sealed class PostgresBookStoreRepository(DotNetBoilerplateWriteDbContex
         return await dbContext.BookStores
             .AnyAsync(x => x.OwnerId == ownerId);
     }
+    public async Task<BookStore> GetByOwnerIdAsync(UserId ownerId)
+    {
+        return await dbContext.BookStores
+            .FirstOrDefaultAsync(x => x.OwnerId == ownerId);
+    }
 }

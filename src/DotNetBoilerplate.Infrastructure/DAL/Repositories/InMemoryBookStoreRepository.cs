@@ -35,4 +35,9 @@ internal sealed class InMemoryBookStoreRepository : IBookStoreRepository
     {
         return Task.FromResult(_bookStores.Any(x => x.OwnerId == ownerId));
     }
+
+    public Task<BookStore> GetByOwnerIdAsync(UserId ownerId)
+    {
+        return Task.FromResult(_bookStores.FirstOrDefault(x => x.OwnerId == ownerId));
+    }
 }

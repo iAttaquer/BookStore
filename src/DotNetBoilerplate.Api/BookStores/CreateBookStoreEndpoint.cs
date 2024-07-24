@@ -4,7 +4,7 @@ using DotNetBoilerplate.Shared.Abstractions.Commands;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DotNetBoilerplate.Api.BookStrores;
+namespace DotNetBoilerplate.Api.BookStores;
 
 public class CreateBookStoreEndpoint : IEndpoint
 {
