@@ -11,11 +11,19 @@ internal sealed class CreateBookHandler(
     IBookStoreRepository bookStoreRepository
     ) : ICommandHandler<CreateBookCommand, Guid>
 {
-    public async Task<Guid> HandleAsync(CreateBookCommand command )
+    public async Task<Guid> HandleAsync(CreateBookCommand command)
     {
         var bookStore = await bookStoreRepository.GetByOwnerIdAsync(context.Identity.Id);
-        var userCanNotAddBook = await bookRepository.UserCanNotAddBookAsync(bookStore.Id);
-
+        bool userCanNotAddBook;
+        if (bookStore is null)
+        {
+            userCanNotAddBook = false;
+        }
+        else
+        {
+            userCanNotAddBook = await bookRepository.UserCanNotAddBookAsync(bookStore.Id);
+        }
+           
         var book = Book.Create(
             command.Title,
             command.Writer,
