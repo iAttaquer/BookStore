@@ -12,10 +12,10 @@ internal sealed class InMemoryBookRepository : IBookRepository
         _books.Add(book);
         return Task.CompletedTask;
     }
-
-    public Task<Book> GetByIdAsync(Guid id)
+    public Task<bool> UserCanNotAddBookAsync(Guid bookStoreId)
     {
-        return Task.FromResult(_books.FirstOrDefault(x => x.Id == id));
+        var count = _books.Count(x => x.BookStoreId == bookStoreId);
+        return Task.FromResult(count >= 100);
     }
 
     public Task UpdateAsync(Book book)
@@ -31,9 +31,14 @@ internal sealed class InMemoryBookRepository : IBookRepository
         return Task.FromResult(_books.AsEnumerable());
     }
 
-    public Task<bool> UserCanNotAddBookAsync(Guid bookStoreId)
+    public Task<Book> GetByIdAsync(Guid id)
     {
-        var count = _books.Count(x => x.BookStoreId == bookStoreId);
-        return Task.FromResult(count >= 100);
+        return Task.FromResult(_books.FirstOrDefault(x => x.Id == id));
+    }
+
+    public Task<IEnumerable<Book>> GetAllInBookStore(Guid bookStoreId)
+    {
+        return Task.FromResult(_books.FindAll(x => x.BookStoreId == bookStoreId)
+            .AsEnumerable());
     }
 }
