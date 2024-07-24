@@ -1,4 +1,5 @@
 ﻿using DotNetBoilerplate.Core.BookStores;
+using DotNetBoilerplate.Core.Books;
 using DotNetBoilerplate.Core.Users;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,6 +11,7 @@ internal static class Extensions
     {
         services.AddScoped<IUserRepository, PostgresUserRepository>();
         services.AddScoped<IBookStoreRepository, PostgresBookStoreRepository>();
+        services.AddSingleton<IBookRepository, InMemoryBookRepository>();
 
         return services;
     }

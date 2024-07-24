@@ -1,6 +1,6 @@
 ﻿using DotNetBoilerplate.Api.BookStores;
 
-namespace DotNetBoilerplate.Api.BookStrores;
+namespace DotNetBoilerplate.Api.BookStores;
 
 internal static class BookStoresEndpoints
 {
