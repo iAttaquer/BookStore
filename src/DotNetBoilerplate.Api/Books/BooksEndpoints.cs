@@ -13,6 +13,8 @@ internal static class BooksEndpoints
         var group = app.MapGroup(BasePath)
             .WithTags(Tags);
 
-        group.MapEndpoint<CreateBookEndpoint>();
+        group
+            .MapEndpoint<CreateBookEndpoint>()
+            .MapEndpoint<UpdateBookEndpoint>();
     }
 }

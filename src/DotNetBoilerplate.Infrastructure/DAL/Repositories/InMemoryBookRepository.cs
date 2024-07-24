@@ -18,10 +18,10 @@ internal sealed class InMemoryBookRepository : IBookRepository
         return Task.FromResult(_books.FirstOrDefault(x => x.Id == id));
     }
 
-    public Task UpdateAsync(Book bookStore)
+    public Task UpdateAsync(Book book)
     {
-        var existingBookStoreIndex = _books.FindIndex(x => x.Id == bookStore.Id);
-        _books[existingBookStoreIndex] = bookStore;
+        var existingBookIndex = _books.FindIndex(x => x.Id == book.Id);
+        _books[existingBookIndex] = book;
 
         return Task.CompletedTask;
     }
