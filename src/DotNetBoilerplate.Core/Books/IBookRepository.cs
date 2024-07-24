@@ -7,11 +7,11 @@ public interface IBookRepository
 
     Task<bool> UserCanNotAddBookAsync(Guid bookStoreId);
 
-    Task<Book> GetByIdAsync(Guid id);
-
     Task UpdateAsync(Book book);
 
     Task<IEnumerable<Book>> GetAll();
 
-    
+    Task<Book> GetByIdAsync(Guid id);
+
+    Task<IEnumerable<Book>> GetAllInBookStore(Guid bookStoreId);
 }
