@@ -28,3 +28,7 @@ app.MapReviewEndpoints();
 app.UseInfrastructure();
 
 await app.RunAsync();
+
+public partial class Program
+{
+}

@@ -38,7 +38,7 @@ internal sealed class SignUpEndpoint : IEndpoint
         Guid Id
     );
 
-    private sealed class Request
+    internal sealed class Request
     {
         [Required] public string Email { get; init; }
 
