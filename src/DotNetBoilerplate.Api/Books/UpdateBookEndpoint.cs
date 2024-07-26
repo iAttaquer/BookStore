@@ -31,7 +31,6 @@ public class UpdateBookEndpoint : IEndpoint
             request.Description
         );
 
-        //await commandDispatcher.DispatchAsync(command, ct);
         var result = await commandDispatcher.DispatchAsync<UpdateBookCommand, Guid>(command, ct);
 
         return TypedResults.Ok(new Response(result));

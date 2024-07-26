@@ -2,6 +2,7 @@
 using DotNetBoilerplate.Core.BookStores;
 using DotNetBoilerplate.Shared.Abstractions.Commands;
 using DotNetBoilerplate.Shared.Abstractions.Contexts;
+using DotNetBoilerplate.Application.Exceptions;
 
 namespace DotNetBoilerplate.Application.Books.Create;
 
@@ -14,16 +15,11 @@ internal sealed class CreateBookHandler(
     public async Task<Guid> HandleAsync(CreateBookCommand command)
     {
         var bookStore = await bookStoreRepository.GetByOwnerIdAsync(context.Identity.Id);
-        bool userCanNotAddBook;
         if (bookStore is null)
-        {
-            userCanNotAddBook = false;
-        }
-        else
-        {
-            userCanNotAddBook = await bookRepository.UserCanNotAddBookAsync(bookStore.Id);
-        }
-           
+            throw new BookStoreNotFoundForTheCurrentUserException();
+
+        bool userCanNotAddBook = await bookRepository.UserCanNotAddBookAsync(bookStore.Id);
+ 
         var book = Book.Create(
             command.Title,
             command.Writer,
@@ -31,6 +27,7 @@ internal sealed class CreateBookHandler(
             command.Year,
             command.Description,
             bookStore.Id,
+            context.Identity.Id,
             userCanNotAddBook
             );
         await bookRepository.AddAsync(book);

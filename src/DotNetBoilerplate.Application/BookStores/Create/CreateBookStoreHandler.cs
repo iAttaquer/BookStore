@@ -27,6 +27,4 @@ internal sealed class CreateBookStoreHandler(
         await bookStoreRepository.AddAsync(bookStore);
         return bookStore.Id;
     }
-
-
 }
