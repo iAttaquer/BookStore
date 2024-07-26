@@ -3,6 +3,7 @@ using DotNetBoilerplate.Api.BookStores;
 using DotNetBoilerplate.Api.Books;
 using DotNetBoilerplate.Api.Reviews;
 using DotNetBoilerplate.Api.Users;
+using DotNetBoilerplate.Api.Catalogs;
 using DotNetBoilerplate.Application;
 using DotNetBoilerplate.Core;
 using DotNetBoilerplate.Infrastructure;
@@ -24,6 +25,7 @@ app.MapUsersEndpoints();
 app.MapBookStoresEndpoints();
 app.MapBookEndpoints();
 app.MapReviewEndpoints();
+app.MapCatalogsEndpoints();
 
 app.UseInfrastructure();
 
