@@ -21,7 +21,8 @@ internal sealed class UpdateBookHandler(
             command.Writer,
             command.Genre,
             command.Year,
-            command.Description
+            command.Description,
+            context.Identity.Id
         );
 
         await bookRepository.UpdateAsync(book);

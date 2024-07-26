@@ -15,6 +15,7 @@ public sealed class Book
     public int Year { get; private set; }
     public string Description { get; private set; }
     public Guid BookStoreId { get; private set; }
+    public Guid CreatedBy { get; private set; }
 
     public static Book Create(
         string title,
@@ -23,6 +24,7 @@ public sealed class Book
         int year,
         string description,
         Guid bookStoreId,
+        Guid createdBy,
         bool userCanNotAddBook
         )
     {
@@ -37,7 +39,8 @@ public sealed class Book
             Genre = genre,
             Year = year,
             Description = description,
-            BookStoreId = bookStoreId
+            BookStoreId = bookStoreId,
+            CreatedBy = createdBy
         };
     }
     public void Update(
@@ -45,9 +48,12 @@ public sealed class Book
         string writer,
         string genre,
         int year,
-        string description
+        string description,
+        Guid updater
         )
     {
+        if (updater != CreatedBy)
+            throw new UserCanNotUpdateBookException();
         Title = title;
         Writer = writer;
         Genre = genre;

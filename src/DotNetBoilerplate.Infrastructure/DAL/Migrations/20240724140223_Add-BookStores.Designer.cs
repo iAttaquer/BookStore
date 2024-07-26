@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DotNetBoilerplate.Infrastructure.DAL.Migrations
 {
     [DbContext(typeof(DotNetBoilerplateWriteDbContext))]
-    [Migration("20240724113229_Add-BookStores")]
+    [Migration("20240724140223_Add-BookStores")]
     partial class AddBookStores
     {
         /// <inheritdoc />
