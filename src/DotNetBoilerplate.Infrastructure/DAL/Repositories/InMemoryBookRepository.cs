@@ -41,4 +41,10 @@ internal sealed class InMemoryBookRepository : IBookRepository
         return Task.FromResult(_books.FindAll(x => x.BookStoreId == bookStoreId)
             .AsEnumerable());
     }
+
+    public Task DeleteAsync(Book book)
+    {
+        _books.Remove(book);
+        return Task.CompletedTask;
+    }
 }
