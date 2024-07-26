@@ -1,4 +1,5 @@
-﻿
+﻿using DotNetBoilerplate.Core.Catalogs.Exceptions;
+
 namespace DotNetBoilerplate.Core.Catalogs;
 
 public sealed class Catalog
@@ -15,9 +16,13 @@ public sealed class Catalog
         string name,
         string genre,
         string description,
-        Guid bookStoreId
+        Guid bookStoreId,
+        bool userCanNotCreateCatalog
         )
     {
+        if (userCanNotCreateCatalog)
+            throw new UserCanNotCreateCatalogException();
+
         return new Catalog
         {
             Id = Guid.NewGuid(),

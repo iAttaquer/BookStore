@@ -11,4 +11,10 @@ internal sealed class InMemoryCatalogRepository : ICatalogRepository
         _catalogs.Add(catalog);
         return Task.CompletedTask;
     }
+
+    public Task<bool> UserCanNotAddCatalogAsync(Guid bookStoreId)
+    {
+        var count = _catalogs.Count(x => x.BookStoreId == bookStoreId);
+        return Task.FromResult(count >= 5);
+    }
 }

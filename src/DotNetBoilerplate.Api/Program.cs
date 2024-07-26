@@ -2,6 +2,7 @@ using System.Text.Json.Serialization;
 using DotNetBoilerplate.Api.BookStores;
 using DotNetBoilerplate.Api.Books;
 using DotNetBoilerplate.Api.Users;
+using DotNetBoilerplate.Api.Catalogs;
 using DotNetBoilerplate.Application;
 using DotNetBoilerplate.Core;
 using DotNetBoilerplate.Infrastructure;
@@ -22,6 +23,7 @@ var app = builder.Build();
 app.MapUsersEndpoints();
 app.MapBookStoresEndpoints();
 app.MapBookEndpoints();
+app.MapCatalogsEndpoints();
 
 app.UseInfrastructure();
 
