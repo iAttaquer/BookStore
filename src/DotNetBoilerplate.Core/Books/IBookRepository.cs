@@ -14,4 +14,6 @@ public interface IBookRepository
     Task<Book> GetByIdAsync(Guid id);
 
     Task<IEnumerable<Book>> GetAllInBookStore(Guid bookStoreId);
+
+    Task DeleteAsync(Book book);
 }
