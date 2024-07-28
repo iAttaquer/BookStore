@@ -1,6 +1,7 @@
 ﻿using DotNetBoilerplate.Core.BookStores;
 using DotNetBoilerplate.Core.Books;
 using DotNetBoilerplate.Core.Users;
+using DotNetBoilerplate.Core.Reviews;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DotNetBoilerplate.Infrastructure.DAL.Repositories;
@@ -12,6 +13,7 @@ internal static class Extensions
         services.AddScoped<IUserRepository, PostgresUserRepository>();
         services.AddScoped<IBookStoreRepository, PostgresBookStoreRepository>();
         services.AddSingleton<IBookRepository, InMemoryBookRepository>();
+        services.AddSingleton<IReviewRepository, InMemoryReviewRepository>();
 
         return services;
     }
