@@ -17,7 +17,8 @@ internal static class CatalogsEndpoints
             .MapEndpoint<UpdateCatalogEndpoint>()
             .MapEndpoint<BrowseCatalogsEndpoint>()
             .MapEndpoint<GetCatalogByIdEndpoint>()
-            .MapEndpoint<BrowseCatalogsByBookStoreIdEndpoint>();
+            .MapEndpoint<BrowseCatalogsByBookStoreIdEndpoint>()
+            .MapEndpoint<DeleteCatalogEndpoint>();
     }
 }
 
