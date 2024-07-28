@@ -11,12 +11,14 @@ public sealed class Catalog
     public string Genre { get; private set; }
     public string Description { get; private set; }
     public Guid BookStoreId { get; private set; }
+    public Guid CreatedBy { get; private set; }
 
     public static Catalog Create(
         string name,
         string genre,
         string description,
         Guid bookStoreId,
+        Guid createdBy,
         bool userCanNotCreateCatalog
         )
     {
@@ -29,7 +31,23 @@ public sealed class Catalog
             Name = name,
             Genre = genre,
             Description = description,
-            BookStoreId = bookStoreId
+            BookStoreId = bookStoreId,
+            CreatedBy = createdBy
         };
     }
+    public void Update(
+        string name,
+        string genre,
+        string description,
+        Guid updater
+    )
+    {
+        if (updater == Guid.Empty)
+            throw new UserCanNotUpdateCatalogException();
+
+        Name = name;
+        Genre = genre;
+        Description = description;
+    }
+
 }

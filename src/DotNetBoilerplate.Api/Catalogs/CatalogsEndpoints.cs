@@ -13,7 +13,8 @@ internal static class CatalogsEndpoints
             .WithTags(Tags);
 
         group
-            .MapEndpoint<CreateCatalogEndpoint>();
+            .MapEndpoint<CreateCatalogEndpoint>()
+            .MapEndpoint<UpdateCatalogEndpoint>();
     }
 }
 
