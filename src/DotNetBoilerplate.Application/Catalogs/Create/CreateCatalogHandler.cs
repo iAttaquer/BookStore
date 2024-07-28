@@ -25,6 +25,7 @@ internal sealed class CreateCatalogHandler(
             command.Genre,
             command.Description,
             bookStore.Id,
+            context.Identity.Id,
             userCanNotCreateCatalog
         );
         await catalogRepository.AddAsync(catalog);
