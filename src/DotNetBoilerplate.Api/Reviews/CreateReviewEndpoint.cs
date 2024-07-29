@@ -20,6 +20,7 @@ public class CreateReviewEndpoint : IEndpoint
     }
 
     private static async Task<Ok<Response>> Handle(
+        [FromQuery] Guid? BookId,
         [FromBody] Request request,
         [FromServices] ICommandDispatcher commandDispatcher,
         CancellationToken ct
@@ -30,7 +31,7 @@ public class CreateReviewEndpoint : IEndpoint
         var command = new CreateReviewCommand(
             rating,
             request.Comment,
-            request.BookId
+            BookId
         );
 
         var result = await commandDispatcher.DispatchAsync<CreateReviewCommand, Guid>(command, ct);
@@ -47,6 +48,5 @@ public class CreateReviewEndpoint : IEndpoint
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
         [Required] public int Rating { get; init; }
         [Required] public string Comment { get; init; }
-        [Required] public Guid BookId  { get; init; }
     }
 }
