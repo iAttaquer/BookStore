@@ -16,7 +16,7 @@ internal sealed class CreateReviewHandler(
 {
     public async Task<Guid> HandleAsync(CreateReviewCommand command)
     {
-        bool userAlreadyGaveReview = await reviewRepository.userAlreadyGaveReviewToThisBook(command.BookId, context.Identity.Id);
+        bool userAlreadyGaveReview = await reviewRepository.UserAlreadyGaveReviewToThisBook(command.BookId, context.Identity.Id);
 
         var book = await bookRepository.GetByIdAsync(command.BookId);
         if(book is null)

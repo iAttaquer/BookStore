@@ -6,6 +6,7 @@ using DotNetBoilerplate.Application.Reviews.Create;
 using DotNetBoilerplate.Shared.Abstractions.Commands;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using DotNetBoilerplate.Core.Reviews;
 
 namespace DotNetBoilerplate.Api.Reviews;
 
@@ -24,8 +25,10 @@ public class CreateReviewEndpoint : IEndpoint
         CancellationToken ct
     )
     {
+        var rating = new Rating(request.Rating);
+
         var command = new CreateReviewCommand(
-            request.Rating,
+            rating,
             request.Comment,
             request.BookId
         );

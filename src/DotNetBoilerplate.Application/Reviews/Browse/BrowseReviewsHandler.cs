@@ -10,9 +10,11 @@ internal sealed class BrowseReviewsHandler(
 {
     public async Task<IEnumerable<ReviewDto>> HandleAsync(BrowseReviewsQuery query)
     {
-        var review = await reviewRepository.GetAll();
+        var reviews = query.BookId.HasValue
+            ? await reviewRepository.GetAllReviewsToTheBook(query.BookId.Value) 
+            : await reviewRepository.GetAll();
 
-        return review
+        return reviews
             .Select(x => new ReviewDto(x.Id, x.Name, x.Rating, x.Comment, x.BookId))
             .ToList();
     }

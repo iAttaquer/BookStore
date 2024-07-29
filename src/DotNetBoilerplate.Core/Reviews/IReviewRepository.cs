@@ -6,7 +6,7 @@ public interface IReviewRepository
 {
     Task AddAsync(Review review);
 
-    Task<bool> userAlreadyGaveReviewToThisBook(Guid bookId, UserId createdBy);
+    Task<bool> UserAlreadyGaveReviewToThisBook(Guid bookId, UserId createdBy);
 
     Task UpdateAsync(Review review);
 

@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using DotNetBoilerplate.Application.Reviews.Update;
+using DotNetBoilerplate.Core.Reviews;
 using DotNetBoilerplate.Shared.Abstractions.Commands;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -22,10 +23,12 @@ public class UpdateReviewEndpoint : IEndpoint
         CancellationToken ct
     )
     {
+        var rating = new Rating(request.Rating);
+
         var command = new UpdateReviewCommand(
             id,
             request.Name,
-            request.Rating,
+            rating,
             request.Comment
         );
 

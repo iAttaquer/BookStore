@@ -3,20 +3,30 @@ using DotNetBoilerplate.Core.Users;
 
 namespace DotNetBoilerplate.Core.Reviews;
 
+public class Rating
+{
+    public Rating(int value){
+        if(value < 0 || value > 10) throw new IncorrectRatingException();
+        Value = value;
+    }
+    
+    public int Value { get; set; }
+}
+
 public class Review
 {
     private Review(){}
 
     public Guid Id { get; private set; }
     public string Name { get; private set; }
-    public int Rating { get; private set; }
+    public Rating Rating { get; private set; }
     public string Comment { get; private set; }
     public Guid BookId { get; private set; }
     public UserId CreatedBy { get; private set; }
 
     public static Review Create(
         string name,
-        int rating,
+        Rating rating,
         string comment,
         Guid bookId,
         Guid createdBy,
@@ -25,9 +35,6 @@ public class Review
 
         if(userAlreadyGaveReviewToThisBook)
             throw new UserCanNotAddReviewException();
-
-        if(rating < 0 || rating > 10)
-            throw new IncorrectRatingException();
 
         return new Review
         {
@@ -42,7 +49,7 @@ public class Review
 
     public void Update(
         string name,
-        int rating,
+        Rating rating,
         string comment,
         bool userIsAdmin
     ){

@@ -11,10 +11,7 @@ internal sealed class GetReviewByIdHandler(
     public async Task<ReviewDto> HandleAsync(GetReviewByIdQuery query)
     {
         var review = await reviewRepository.GetByIdAsync(query.Id);
-        if (review is null)
-            return null;
-
-        return new ReviewDto(
+        return review is null ? null : new ReviewDto(
             review.Id,
             review.Name,
             review.Rating,

@@ -3,4 +3,4 @@ using DotNetBoilerplate.Shared.Abstractions.Queries;
 
 namespace DotNetBoilerplate.Application.Reviews.Browse;
 
-public sealed record BrowseReviewsQuery : IQuery<IEnumerable<ReviewDto>>;
+public sealed record BrowseReviewsQuery(Guid? BookId = null) : IQuery<IEnumerable<ReviewDto>>;

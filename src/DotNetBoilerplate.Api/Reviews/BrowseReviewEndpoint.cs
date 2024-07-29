@@ -11,18 +11,19 @@ public class BrowseReviewEndpoint : IEndpoint
     public static void Map(IEndpointRouteBuilder app)
     {
         app.MapGet("", Handle)
-            .WithSummary("Browse all reviews");
+            .WithSummary("Browse all reviews or reviews for a specific book");
     }
 
-    private static async Task<Ok<IEnumerable<ReviewDto>>> Handle(
+    private static async Task<Results<Ok<IEnumerable<ReviewDto>>, NotFound>> Handle(
+        [FromQuery] Guid? bookId,
         [FromServices] IQueryDispatcher queryDispatcher,
         CancellationToken ct
     )
     {
-        var query = new BrowseReviewsQuery();
+        var query = new BrowseReviewsQuery(bookId);
 
         var result = await queryDispatcher.QueryAsync(query, ct);
 
-        return TypedResults.Ok(result);
+        return result is null ? TypedResults.NotFound() : TypedResults.Ok(result);
     }
 }

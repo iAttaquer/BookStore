@@ -13,7 +13,7 @@ internal sealed class InMemoryReviewRepository : IReviewRepository
         return Task.CompletedTask;
     }
 
-    public Task<bool> userAlreadyGaveReviewToThisBook(Guid bookId, UserId createdBy)
+    public Task<bool> UserAlreadyGaveReviewToThisBook(Guid bookId, UserId createdBy)
     {
         return Task.FromResult(_reviews.Any(x=>x.BookId == bookId && x.CreatedBy == createdBy));
     }

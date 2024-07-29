@@ -17,7 +17,6 @@ internal static class ReviewEndpoints
             .MapEndpoint<UpdateReviewEndpoint>()
             .MapEndpoint<DeleteReviewEndpoint>()
             .MapEndpoint<BrowseReviewEndpoint>()
-            .MapEndpoint<BrowseReviewByBookIdEndpoint>()
             .MapEndpoint<GetReviewByIdEndpoint>();
     }
 }

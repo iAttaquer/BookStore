@@ -15,7 +15,7 @@ internal sealed class DeleteReviewEndpoint : IEndpoint
             .WithSummary("Delete review by Id");
     }
 
-    private static async Task<Ok<Response>> Handle(
+    private static async Task<IResult> Handle(
         Guid id,
         [FromServices] ICommandDispatcher commandDispatcher,
         CancellationToken ct
@@ -25,7 +25,6 @@ internal sealed class DeleteReviewEndpoint : IEndpoint
 
         await commandDispatcher.DispatchAsync<DeleteReviewCommand>(command, ct);
 
-        return TypedResults.Ok(new Response());
+        return Results.NoContent();
     }
-    internal sealed record Response();
 }

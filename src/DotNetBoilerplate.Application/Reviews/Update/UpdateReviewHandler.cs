@@ -8,8 +8,7 @@ namespace DotNetBoilerplate.Application.Reviews.Update;
 
 internal sealed class UpdateReviewHandler(
     IContext context,
-    IReviewRepository reviewRepository,
-    IUserRepository userRepository
+    IReviewRepository reviewRepository
 ) : ICommandHandler<UpdateReviewCommand, Guid>
 {
     public async Task<Guid> HandleAsync(UpdateReviewCommand command)
@@ -17,8 +16,8 @@ internal sealed class UpdateReviewHandler(
         var review = await reviewRepository.GetByIdAsync(command.Id);
         if (review is null)
             throw new ReviewNotFoundException();
-        var user = await userRepository.FindByIdAsync(context.Identity.Id);
-        bool userIsAdmin = user.Role=="admin";
+            
+        bool userIsAdmin = context.Identity.Role == Role.Admin();
 
         review.Update(
             command.Name,
