@@ -11,8 +11,8 @@ public class GetBooksEndpoint : IEndpoint
 {
     public static void Map(IEndpointRouteBuilder app)
     {
-        app.MapGet("search", Handle)
-            .WithSummary("Search books with optional Id or BookStoreId parameter");
+        app.MapGet("", Handle)
+            .WithSummary("Browse books with optional Id or BookStoreId parameter");
     }
 
     private static async Task<Results<Ok<IEnumerable<BookDto>>, Ok<BookDto>, NotFound>> Handle(
