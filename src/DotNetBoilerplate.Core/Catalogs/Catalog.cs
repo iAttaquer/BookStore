@@ -1,4 +1,5 @@
-﻿using DotNetBoilerplate.Core.Catalogs.Exceptions;
+﻿using DotNetBoilerplate.Core.Books;
+using DotNetBoilerplate.Core.Catalogs.Exceptions;
 
 namespace DotNetBoilerplate.Core.Catalogs;
 
@@ -10,6 +11,7 @@ public sealed class Catalog
     public string Name { get; private set; }
     public string Genre { get; private set; }
     public string Description { get; private set; }
+    public List<Book> Books { get; private set; }
     public Guid BookStoreId { get; private set; }
     public Guid CreatedBy { get; private set; }
 
@@ -49,5 +51,10 @@ public sealed class Catalog
         Genre = genre;
         Description = description;
     }
-
+    public void AddBook(Book book)
+    {
+        if (Books.Any(x => x.Id == book.Id))
+            throw new BookAlreadyAddedToCatalogException();
+        Books.Add(book);
+    }
 }
