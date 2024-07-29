@@ -12,8 +12,8 @@ internal static class Extensions
     {
         services.AddScoped<IUserRepository, PostgresUserRepository>();
         services.AddScoped<IBookStoreRepository, PostgresBookStoreRepository>();
-        services.AddSingleton<IBookRepository, InMemoryBookRepository>();
-        services.AddSingleton<IReviewRepository, InMemoryReviewRepository>();
+        services.AddScoped<IReviewRepository, PostgresReviewsRepository>();
+        services.AddScoped<IBookRepository, PostgresBookRepository>();
 
         return services;
     }
