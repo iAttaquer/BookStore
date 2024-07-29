@@ -1,4 +1,5 @@
 ﻿using DotNetBoilerplate.Core.Books.Exceptions;
+using DotNetBoilerplate.Core.Users;
 namespace DotNetBoilerplate.Core.Books;
 
 public sealed class Book
@@ -15,7 +16,7 @@ public sealed class Book
     public int Year { get; private set; }
     public string Description { get; private set; }
     public Guid BookStoreId { get; private set; }
-    public Guid CreatedBy { get; private set; }
+    public UserId CreatedBy { get; private set; }
 
     public static Book Create(
         string title,
@@ -52,7 +53,7 @@ public sealed class Book
         Guid updater
         )
     {
-        if (updater != CreatedBy)
+        if (CreatedBy != updater)
             throw new UserCanNotUpdateBookException();
         Title = title;
         Writer = writer;
