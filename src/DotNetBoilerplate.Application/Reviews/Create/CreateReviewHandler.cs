@@ -16,9 +16,9 @@ internal sealed class CreateReviewHandler(
 {
     public async Task<Guid> HandleAsync(CreateReviewCommand command)
     {
-        bool userAlreadyGaveReview = await reviewRepository.UserAlreadyGaveReviewToThisBook(command.BookId.Value, context.Identity.Id);
+        bool userAlreadyGaveReview = await reviewRepository.UserAlreadyGaveReviewToThisBook(command.BookId, context.Identity.Id);
 
-        var book = await bookRepository.GetByIdAsync(command.BookId.Value);
+        var book = await bookRepository.GetByIdAsync(command.BookId);
         if(book is null)
             throw new BookNotFoundException();
 
@@ -30,7 +30,7 @@ internal sealed class CreateReviewHandler(
             user.Username,
             command.Rating,
             command.Comment,
-            command.BookId.Value,
+            command.BookId,
             context.Identity.Id,
             userAlreadyGaveReview
         );
