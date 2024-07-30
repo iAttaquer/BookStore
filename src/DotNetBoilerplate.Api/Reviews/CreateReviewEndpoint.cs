@@ -20,7 +20,7 @@ public class CreateReviewEndpoint : IEndpoint
     }
 
     private static async Task<Ok<Response>> Handle(
-        [FromQuery] Guid? BookId,
+        [FromQuery] Guid BookId,
         [FromBody] Request request,
         [FromServices] ICommandDispatcher commandDispatcher,
         CancellationToken ct
