@@ -1,5 +1,4 @@
 using DotNetBoilerplate.Application.Reviews.DTO;
-using DotNetBoilerplate.Core.Reviews;
 using DotNetBoilerplate.Infrastructure.DAL.Contexts;
 using DotNetBoilerplate.Shared.Abstractions.Queries;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +16,6 @@ internal sealed class BrowseReviewsHandler(
         if(query.BookId.HasValue) reviewsQuery = reviewsQuery.Where(x=>x.BookId==query.BookId.Value);
 
        return await reviewsQuery
-        .AsNoTracking()
         .Select(x=>new ReviewDto(
             x.Id,
             x.Name,

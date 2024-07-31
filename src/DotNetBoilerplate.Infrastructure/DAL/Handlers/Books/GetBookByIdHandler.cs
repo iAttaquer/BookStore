@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DotNetBoilerplate.Infrastructure.DAL.Handlers.Books;
 
-internal sealed class GetBookStoreByIdHandler(
+internal sealed class GetBookByIdHandler(
     DotNetBoilerplateReadDbContext dbContext
 ) : IQueryHandler<GetBookByIdQuery, BookDto>
 {

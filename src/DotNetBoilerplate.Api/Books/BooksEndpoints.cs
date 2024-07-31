@@ -15,7 +15,8 @@ internal static class BooksEndpoints
         group
             .MapEndpoint<CreateBookEndpoint>()
             .MapEndpoint<UpdateBookEndpoint>()
-            .MapEndpoint<GetBooksEndpoint>()
-            .MapEndpoint<DeleteBookEndpoint>();
+            .MapEndpoint<DeleteBookEndpoint>()
+            .MapEndpoint<GetBookByIdEndpoint>()
+            .MapEndpoint<BrowseBooksEndpoint>();
     }
 }

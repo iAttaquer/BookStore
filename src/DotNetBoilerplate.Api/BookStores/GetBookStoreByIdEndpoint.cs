@@ -1,26 +1,26 @@
-using DotNetBoilerplate.Application.Reviews.Get;
-using DotNetBoilerplate.Application.Reviews.DTO;
+﻿using DotNetBoilerplate.Application.BookStores.Get;
+using DotNetBoilerplate.Application.BookStores.DTO;
 using DotNetBoilerplate.Shared.Abstractions.Queries;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DotNetBoilerplate.Api.Reviews;
+namespace DotNetBoilerplate.Api.BookStores;
 
-public class GetReviewByIdEndpoint : IEndpoint
+public class GetBookStoresEndpoint : IEndpoint
 {
     public static void Map(IEndpointRouteBuilder app)
     {
         app.MapGet("{id:guid}", Handle)
-            .WithSummary("Get review by Id");
+            .WithSummary("Get book store by Id");
     }
 
-    private static async Task<Results<Ok<ReviewDto>, NotFound>> Handle(
+    private static async Task<Results<Ok<IEnumerable<BookStoreDto>>, Ok<BookStoreDto>, NotFound>> Handle(
         [FromRoute] Guid id,
         [FromServices] IQueryDispatcher queryDispatcher,
         CancellationToken ct
     )
     {
-        var query = new GetReviewByIdQuery(id);
+        var query = new GetBookStoreByIdQuery(id);
 
         var result = await queryDispatcher.QueryAsync(query, ct);
 

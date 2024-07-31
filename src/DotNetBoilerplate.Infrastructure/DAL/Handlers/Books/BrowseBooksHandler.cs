@@ -12,8 +12,11 @@ internal sealed class BrowseBooksHandler(
 {
     public async Task<IEnumerable<BookDto>> HandleAsync(BrowseBooksQuery query)
     {
-        return await dbContext.Books
-            .AsNoTracking()
+        var booksQuery = dbContext.Books.AsNoTracking();
+        if (query.BookStoreId.HasValue)
+            booksQuery = booksQuery.Where(x => x.BookStoreId == query.BookStoreId.Value);
+
+        return await booksQuery
             .Select(x=>new BookDto(
                 x.Id,
                 x.Title,

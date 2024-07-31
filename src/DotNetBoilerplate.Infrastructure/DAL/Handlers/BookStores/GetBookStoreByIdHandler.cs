@@ -16,7 +16,6 @@ internal sealed class GetBookStoreByIdHandler(
         return await dbContext.BookStores
             .AsNoTracking()
             .Where(x => x.Id == query.Id)
-            .Include(x => x.Books)
             .Select(x => new BookStoreDto(
                 x.Id,
                 x.Name,
