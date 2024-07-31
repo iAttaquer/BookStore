@@ -14,6 +14,7 @@ internal static class BookStoresEndpoints
 
         group.MapEndpoint<CreateBookStoreEndpoint>()
             .MapEndpoint<UpdateBookStoreEndpoint>()
-            .MapEndpoint<GetBookStoresEndpoint>();
+            .MapEndpoint<GetBookStoresEndpoint>()
+            .MapEndpoint<BrowseBookStoresEndpoint>();
     }
 }

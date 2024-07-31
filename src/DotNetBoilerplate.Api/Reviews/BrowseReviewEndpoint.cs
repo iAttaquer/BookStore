@@ -24,6 +24,8 @@ public class BrowseReviewEndpoint : IEndpoint
 
         var result = await queryDispatcher.QueryAsync(query, ct);
 
-        return result is null ? TypedResults.NotFound() : TypedResults.Ok(result);
+        return result is null
+            ? TypedResults.NotFound()
+            : TypedResults.Ok(result);
     }
 }

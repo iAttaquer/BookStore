@@ -3,5 +3,6 @@
 public sealed record BookStoreDto(
     Guid Id,
     string Name,
-    string Description
+    string Description,
+    Guid OwnerId
 );
