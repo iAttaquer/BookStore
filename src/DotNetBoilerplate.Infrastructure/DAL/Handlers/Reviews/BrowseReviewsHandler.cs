@@ -15,7 +15,7 @@ internal sealed class BrowseReviewsHandler(
     {
         var reviewsQuery = dbContext.Reviews.AsNoTracking();
         if(query.BookId.HasValue) reviewsQuery = reviewsQuery.Where(x=>x.BookId==query.BookId.Value);
-       
+
        return await reviewsQuery
         .AsNoTracking()
         .Select(x=>new ReviewDto(

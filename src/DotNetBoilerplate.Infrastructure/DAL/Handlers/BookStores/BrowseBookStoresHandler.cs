@@ -1,6 +1,5 @@
 ﻿using DotNetBoilerplate.Application.BookStores.DTO;
 using DotNetBoilerplate.Application.BookStores.Browse;
-using DotNetBoilerplate.Core.BookStores;
 using DotNetBoilerplate.Shared.Abstractions.Queries;
 using DotNetBoilerplate.Infrastructure.DAL.Contexts;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +17,8 @@ internal sealed class BrowseBookStoresHandler(
             .Select(x => new BookStoreDto(
                 x.Id,
                 x.Name,
-                x.Description
+                x.Description,
+                x.OwnerId
             ))
             .ToListAsync();
     }

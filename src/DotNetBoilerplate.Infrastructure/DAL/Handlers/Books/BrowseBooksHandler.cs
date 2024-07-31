@@ -1,10 +1,8 @@
 ﻿using DotNetBoilerplate.Application.Books.DTO;
 using DotNetBoilerplate.Application.Books.Browse;
-using DotNetBoilerplate.Core.Books;
 using DotNetBoilerplate.Infrastructure.DAL.Contexts;
 using DotNetBoilerplate.Shared.Abstractions.Queries;
 using Microsoft.EntityFrameworkCore;
-using DotNetBoilerplate.Application.Books.Browse;
 
 namespace DotNetBoilerplate.Infrastructure.DAL.Handlers.Books;
 

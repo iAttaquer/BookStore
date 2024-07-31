@@ -20,7 +20,8 @@ internal sealed class GetBookStoreByIdHandler(
             .Select(x => new BookStoreDto(
                 x.Id,
                 x.Name,
-                x.Description
+                x.Description,
+                x.OwnerId
             ))
             .FirstOrDefaultAsync();
     }
