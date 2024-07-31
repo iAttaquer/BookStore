@@ -5,7 +5,7 @@ namespace DotNetBoilerplate.Application.Reviews.DTO;
 public sealed record ReviewDto(
     Guid Id,
     string Name,
-    Rating Rating,
+    int Rating,
     string Comment,
     Guid bookId
 );
