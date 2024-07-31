@@ -13,7 +13,7 @@ internal sealed class BrowseBooksHandler(
         var books = await bookRepository.GetAll();
 
         return books
-            .Select(x => new BookDto(x.Id, x.Title, x.Writer, x.Genre, x.Year, x.Description))
+            .Select(x => new BookDto(x.Id, x.Title, x.Writer, x.Genre, x.Year, x.Description, []))
             .ToList();
     }
 }

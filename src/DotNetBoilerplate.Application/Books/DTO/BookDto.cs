@@ -6,5 +6,5 @@ public sealed record BookDto(
     string Writer,
     string Genre,
     int Year,
-    string Description
-);
+    string Description,
+    List<string> fdsf);

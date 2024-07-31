@@ -8,7 +8,8 @@ internal sealed class DotNetBoilerplateReadDbContext(DbContextOptions<DotNetBoil
     : DbContext(options)
 {
     public DbSet<UserReadModel> Users { get; set; }
-
+    public DbSet<BookReadModel> Books { get; set; }
+    public DbSet<ReviewReadModel> Reviews { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -16,5 +17,7 @@ internal sealed class DotNetBoilerplateReadDbContext(DbContextOptions<DotNetBoil
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.ApplyConfiguration(new UserReadConfiguration());
+        modelBuilder.ApplyConfiguration(new BookReadConfiguration());
+        modelBuilder.ApplyConfiguration(new ReviewReadConfiguration());
     }
 }

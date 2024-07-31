@@ -6,4 +6,7 @@ internal sealed class UserReadModel
     public string Username { get; set; }
     public string Email { get; set; }
     public string Role { get; set; }
+    public List<BookReadModel> CreatedBooks { get; set; }
+
+    public List<ReviewReadModel> CreatedReviews { get; set; }
 }

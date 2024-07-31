@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DotNetBoilerplate.Infrastructure.DAL.Migrations
 {
     [DbContext(typeof(DotNetBoilerplateWriteDbContext))]
-    [Migration("20240729122724_Add-Book")]
-    partial class AddBook
+    [Migration("20240730142836_test")]
+    partial class test
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -98,6 +98,40 @@ namespace DotNetBoilerplate.Infrastructure.DAL.Migrations
                     b.ToTable("Books", "dotNetBoilerplate");
                 });
 
+            modelBuilder.Entity("DotNetBoilerplate.Core.Reviews.Review", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BookId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Comment")
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("BookId", "CreatedBy")
+                        .IsUnique();
+
+                    b.ToTable("Reviews", "dotNetBoilerplate");
+                });
+
             modelBuilder.Entity("DotNetBoilerplate.Core.Users.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -174,6 +208,21 @@ namespace DotNetBoilerplate.Infrastructure.DAL.Migrations
                     b.HasOne("DotNetBoilerplate.Core.BookStores.BookStore", null)
                         .WithMany()
                         .HasForeignKey("BookStoreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DotNetBoilerplate.Core.Users.User", null)
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DotNetBoilerplate.Core.Reviews.Review", b =>
+                {
+                    b.HasOne("DotNetBoilerplate.Core.Books.Book", null)
+                        .WithMany()
+                        .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

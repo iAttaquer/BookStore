@@ -49,6 +49,5 @@ internal sealed class BookWriteConfiguration : IEntityTypeConfiguration<Book>
             .HasForeignKey(x => x.CreatedBy)
             .IsRequired();
 
-
     }
 }
