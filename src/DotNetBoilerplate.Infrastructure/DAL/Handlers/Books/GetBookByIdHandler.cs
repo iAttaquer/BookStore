@@ -1,10 +1,10 @@
-﻿using DotNetBoilerplate.Application.Books.DTO;
-using DotNetBoilerplate.Core.Books;
-using DotNetBoilerplate.Shared.Abstractions.Queries;
-using DotNetBoilerplate.Application.Exceptions;
+﻿﻿using DotNetBoilerplate.Application.Books.DTO;
+using DotNetBoilerplate.Application.Books.Get;
 using DotNetBoilerplate.Infrastructure.DAL.Contexts;
+using DotNetBoilerplate.Shared.Abstractions.Queries;
 using Microsoft.EntityFrameworkCore;
-namespace DotNetBoilerplate.Application.Books.Get;
+
+namespace DotNetBoilerplate.Infrastructure.DAL.Handlers.Books;
 
 internal sealed class GetBookStoreByIdHandler(
     DotNetBoilerplateReadDbContext dbContext
@@ -15,7 +15,7 @@ internal sealed class GetBookStoreByIdHandler(
         return await dbContext.Books
             .AsNoTracking()
             .Where(x => x.Id == query.Id)
-            .Include(x=>x.Reviews)
+            .Include(x=>x.Reviews.Where(r=>r.BookId==query.Id))
             .Select(x=>new BookDto(
                 x.Id,
                 x.Title,

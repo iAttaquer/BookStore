@@ -11,7 +11,7 @@ public class GetReviewByIdEndpoint : IEndpoint
     public static void Map(IEndpointRouteBuilder app)
     {
         app.MapGet("{id:guid}", Handle)
-            .WithSummary("Browse review by Id");
+            .WithSummary("Get review by Id");
     }
 
     private static async Task<Results<Ok<ReviewDto>, NotFound>> Handle(

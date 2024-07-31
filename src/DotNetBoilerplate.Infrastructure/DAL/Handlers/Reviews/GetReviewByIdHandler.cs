@@ -2,9 +2,11 @@ using DotNetBoilerplate.Core.Reviews;
 using DotNetBoilerplate.Shared.Abstractions.Queries;
 using DotNetBoilerplate.Application.Exceptions;
 using DotNetBoilerplate.Application.Reviews.DTO;
+using DotNetBoilerplate.Application.Reviews.Get;
 using DotNetBoilerplate.Infrastructure.DAL.Contexts;
 using Microsoft.EntityFrameworkCore;
-namespace DotNetBoilerplate.Application.Reviews.Get;
+
+namespace DotNetBoilerplate.Infrastructure.DAL.Handlers.Reviews;
 
 internal sealed class GetReviewByIdHandler(
     DotNetBoilerplateReadDbContext dbContext

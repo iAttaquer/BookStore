@@ -3,8 +3,9 @@ using DotNetBoilerplate.Core.Books;
 using DotNetBoilerplate.Infrastructure.DAL.Contexts;
 using DotNetBoilerplate.Shared.Abstractions.Queries;
 using Microsoft.EntityFrameworkCore;
+using DotNetBoilerplate.Application.Books.Browse;
 
-namespace DotNetBoilerplate.Application.Books.Browse;
+namespace DotNetBoilerplate.Infrastructure.DAL.Handlers.Books;
 
 internal sealed class BrowseBooksHandler(
     DotNetBoilerplateReadDbContext dbContext
@@ -14,7 +15,6 @@ internal sealed class BrowseBooksHandler(
     {
         return await dbContext.Books
             .AsNoTracking()
-            .Include(x=>x.Reviews)
             .Select(x=>new BookDto(
                 x.Id,
                 x.Title,
