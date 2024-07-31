@@ -1,22 +1,22 @@
 ﻿using DotNetBoilerplate.Application.Books.DTO;
 using DotNetBoilerplate.Application.Books.Browse;
 using DotNetBoilerplate.Core.Books;
-using DotNetBoilerplate.Infrastructure.DAL.Contexts;
 using DotNetBoilerplate.Shared.Abstractions.Queries;
+using DotNetBoilerplate.Infrastructure.DAL.Contexts;
 using Microsoft.EntityFrameworkCore;
-using DotNetBoilerplate.Application.Books.Browse;
 
 namespace DotNetBoilerplate.Infrastructure.DAL.Handlers.Books;
 
-internal sealed class BrowseBooksHandler(
+internal sealed class BrowseBooksByBookStoreIdHandler(
     DotNetBoilerplateReadDbContext dbContext
-) : IQueryHandler<BrowseBooksQuery, IEnumerable<BookDto>>
+) : IQueryHandler<BrowseBooksByBookStoreIdQuery, IEnumerable<BookDto>>
 {
-    public async Task<IEnumerable<BookDto>> HandleAsync(BrowseBooksQuery query)
+    public async Task<IEnumerable<BookDto>> HandleAsync(BrowseBooksByBookStoreIdQuery query)
     {
         return await dbContext.Books
             .AsNoTracking()
-            .Select(x=>new BookDto(
+            .Where(x => x.BookStoreId == query.Id)
+            .Select(x => new BookDto(
                 x.Id,
                 x.Title,
                 x.Writer,
