@@ -8,4 +8,5 @@ internal sealed class UserReadModel
     public string Role { get; set; }
     public List<BookReadModel> CreatedBooks { get; set; }
     public List<ReviewReadModel> CreatedReviews { get; set; }
+    public BookStoreReadModel BookStore { get; set; }
 }
