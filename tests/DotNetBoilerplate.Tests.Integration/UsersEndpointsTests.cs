@@ -1,13 +1,14 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
 using DotNetBoilerplate.Api.Users;
+using DotNetBoilerplate.Tests.Integration.Setup;
 using Shouldly;
 using Xunit;
 
 namespace DotNetBoilerplate.Tests.Integration;
 
-[Collection(nameof(UserEndpointsTestsCollection))]
-public class UserEndpointsTests(UserEndpointsTestsFixture testsFixture) : IAsyncLifetime
+[Collection(nameof(BookstoreEndpointsTestsCollection))]
+public class UsersEndpointsTests(BookstoreEndpointsTestsFixture testsFixture) : IAsyncLifetime
 {
     public Task InitializeAsync()
     {

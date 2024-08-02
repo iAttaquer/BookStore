@@ -1,13 +1,12 @@
-﻿using DotNetBoilerplate.Tests.Integration.Setup;
-using Microsoft.AspNetCore.Mvc.Testing;
+﻿using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Npgsql;
 using Respawn;
 using Xunit;
 
-namespace DotNetBoilerplate.Tests.Integration;
+namespace DotNetBoilerplate.Tests.Integration.Setup;
 
-public sealed class UserEndpointsTestsFixture : IAsyncLifetime
+public sealed class BookstoreEndpointsTestsFixture : IAsyncLifetime
 {
     private const string DbConnectionStringName = "database:connectionString";
     private WebApplicationFactory<Program> _applicationFactory = null!;
