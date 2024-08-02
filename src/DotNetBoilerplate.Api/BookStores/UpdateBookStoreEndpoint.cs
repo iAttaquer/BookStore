@@ -38,7 +38,7 @@ public class UpdateBookStoreEndpoint : IEndpoint
         Guid Id
     );
 
-    private sealed class Request
+    internal sealed class Request
     {
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
         [Required] public string Name { get; init; }
