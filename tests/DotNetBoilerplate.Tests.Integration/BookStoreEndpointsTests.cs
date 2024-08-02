@@ -25,13 +25,14 @@ public class BookStoreEndpointsTests(BookstoreEndpointsTestsFixture testsFixture
         testsFixture.Client.DefaultRequestHeaders.Remove("Authorization");
     }
 
-    private async Task SignUpAndSignIn()
+    private async Task SignUpAndSignIn(string mail = "email@t.pl",
+        string pass = "ttttttt", string username = "username")
     {
         var signUpRequest = new SignUpEndpoint.Request
         {
-            Email = "email@t.pl",
-            Password = "ttttttt",
-            Username = "username"
+            Email = mail,
+            Password = pass,
+            Username = username
         };
 
         var response = await testsFixture.Client.PostAsJsonAsync("users/sign-up", signUpRequest);
@@ -39,8 +40,8 @@ public class BookStoreEndpointsTests(BookstoreEndpointsTestsFixture testsFixture
 
         var signInRequest = new SignInEndpoint.Request
         {
-            Email = "email@t.pl",
-            Password = "ttttttt"
+            Email = mail,
+            Password = pass
         };
 
         var signInResponse = await testsFixture.Client.PostAsJsonAsync("users/sign-in", signInRequest);
@@ -76,7 +77,40 @@ public class BookStoreEndpointsTests(BookstoreEndpointsTestsFixture testsFixture
     }
 
     [Fact]
-    public async Task UpdateBookStore_ShouldSucceed()
+    public async Task GivenBookStoreExists_CreateBookStore_ShouldFail()
+    {
+        //Arrange
+        var existingBookStore = new CreateBookStoreEndpoint.Request
+        {
+            Name = "BookStore",
+            Description = "Description"
+        };
+        var request = new CreateBookStoreEndpoint.Request
+        {
+            Name = "BookStore2",
+            Description = "Description2"
+        };
+
+        //Act
+        var firstResponse = await testsFixture.Client.PostAsJsonAsync("book-stores", existingBookStore);
+        var secondResponse = await testsFixture.Client.PostAsJsonAsync("book-stores", request);
+
+        //Assert
+        firstResponse.StatusCode.ShouldBe(HttpStatusCode.OK);
+        secondResponse.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+
+        using var serviceScope = testsFixture.ServiceProvider.CreateScope();
+        var dbContext = serviceScope.ServiceProvider.GetRequiredService<DotNetBoilerplateReadDbContext>();
+
+        var bookStores = await dbContext.BookStores.ToListAsync();
+        bookStores.Count.ShouldBe(1);
+
+        var bookStore = await dbContext.BookStores.FirstOrDefaultAsync();
+        bookStore.ShouldNotBeNull();
+        bookStore!.Name.ShouldBe(existingBookStore.Name);
+    }
+
+    public async Task GivenBookStoreExists_UpdateBookStore_ShouldSucceed()
     {
         //Arrange
         var createRequest = new CreateBookStoreEndpoint.Request
@@ -84,7 +118,6 @@ public class BookStoreEndpointsTests(BookstoreEndpointsTestsFixture testsFixture
             Name = "BookStore",
             Description = "Description"
         };
-
         var createResponse = await testsFixture.Client.PostAsJsonAsync("book-stores", createRequest);
         createResponse.StatusCode.ShouldBe(HttpStatusCode.OK);
 
@@ -108,35 +141,16 @@ public class BookStoreEndpointsTests(BookstoreEndpointsTestsFixture testsFixture
          //Assert
         updateResponse.StatusCode.ShouldBe(HttpStatusCode.OK);
 
-        using var updateServiceScope = testsFixture.ServiceProvider.CreateScope();
-        var updateDbContext = updateServiceScope.ServiceProvider.GetRequiredService<DotNetBoilerplateReadDbContext>();
-
-        var updatedBookStore = await updateDbContext.BookStores.FirstOrDefaultAsync(x=>x.Id==bookStore.Id);
+        var updatedBookStore = await dbContext.BookStores.FirstOrDefaultAsync(x=>x.Id==bookStore.Id);
 
         updatedBookStore.ShouldNotBeNull();
         updatedBookStore!.Name.ShouldBe(updateRequest.Name);
     }
 
     [Fact]
-    public async Task UpdateBookStore_WithWrongId_ShouldReturnBadRequest()
+    public async Task GivenBookStoreDoesNotExists_UpdateBookStore_ShouldFail()
     {
         //Arrange
-        var createRequest = new CreateBookStoreEndpoint.Request
-        {
-            Name = "BookStore",
-            Description = "Description"
-        };
-
-        var createResponse = await testsFixture.Client.PostAsJsonAsync("book-stores", createRequest);
-        createResponse.StatusCode.ShouldBe(HttpStatusCode.OK);
-
-        using var serviceScope = testsFixture.ServiceProvider.CreateScope();
-        var dbContext = serviceScope.ServiceProvider.GetRequiredService<DotNetBoilerplateReadDbContext>();
-
-        var bookStore = await dbContext.BookStores.FirstOrDefaultAsync();
-        bookStore.ShouldNotBeNull();
-        bookStore!.Name.ShouldBe(createRequest.Name);
-
         var updateRequest = new UpdateBookStoreEndpoint.Request
         {
             Name = "Updated book store",
@@ -149,11 +163,45 @@ public class BookStoreEndpointsTests(BookstoreEndpointsTestsFixture testsFixture
 
          //Assert
         updateResponse.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
-
     }
 
     [Fact]
-    public async Task GetBookStore_ShouldSucceed()
+    public async Task GivenBookStoresExists_BrowseBookStores_ShouldReturnAll()
+    {
+        //Arrange
+        var firstBookStore = new CreateBookStoreEndpoint.Request
+        {
+            Name = "BookStore",
+            Description = "Description"
+        };
+
+        var secondBookStore = new CreateBookStoreEndpoint.Request
+        {
+            Name = "BookStore2",
+            Description = "Description2"
+        };
+
+        //Act
+        var firstResponse = await testsFixture.Client.PostAsJsonAsync("book-stores", firstBookStore);
+
+        testsFixture.Client.DefaultRequestHeaders.Remove("Authorization");
+        await SignUpAndSignIn("email2@t.pl", "ttttttt2", "username2");
+
+        var secondResponse = await testsFixture.Client.PostAsJsonAsync("book-stores", secondBookStore);
+
+        //Assert
+        firstResponse.StatusCode.ShouldBe(HttpStatusCode.OK);
+        secondResponse.StatusCode.ShouldBe(HttpStatusCode.OK);
+
+        using var serviceScope = testsFixture.ServiceProvider.CreateScope();
+        var dbContext = serviceScope.ServiceProvider.GetRequiredService<DotNetBoilerplateReadDbContext>();
+
+        var bookStores = await dbContext.BookStores.ToListAsync();
+        bookStores.Count.ShouldBe(2);
+    }
+
+    [Fact]
+    public async Task GivenBookStoreExists_GetBookStoreById_ShouldSucceed()
     {
         //Arrange
         var request = new CreateBookStoreEndpoint.Request
@@ -171,19 +219,30 @@ public class BookStoreEndpointsTests(BookstoreEndpointsTestsFixture testsFixture
 
         var bookStore = await dbContext.BookStores.FirstOrDefaultAsync();
 
-        bookStore.ShouldNotBeNull();
-        bookStore!.Name.ShouldBe(request.Name);
-
         //Act
         await testsFixture.Client.GetAsync($"book-stores/{bookStore.Id}");
 
         //Assert
-        using var getServiceScope = testsFixture.ServiceProvider.CreateScope();
-        var getDbContext = getServiceScope.ServiceProvider.GetRequiredService<DotNetBoilerplateReadDbContext>();
 
-        var getBookStore = await getDbContext.BookStores.FirstOrDefaultAsync(x=>x.Id==bookStore.Id);
+        bookStore.ShouldNotBeNull();
+        bookStore!.Name.ShouldBe(request.Name);
+
+        var getBookStore = await dbContext.BookStores.FirstOrDefaultAsync(x=>x.Id==bookStore.Id);
 
         getBookStore.ShouldNotBeNull();
         getBookStore!.Name.ShouldBe(bookStore.Name);
+    }
+
+    [Fact]
+    public async Task GivenBookStoreDoesNotExists_GetBookStoreById_ShouldFail()
+    {
+        //Arrange
+        var nonExistentBookStoreId = Guid.NewGuid();
+
+        //Act
+        var response = await testsFixture.Client.GetAsync($"book-stores/{nonExistentBookStoreId}");
+
+        //Assert
+        response.StatusCode.ShouldBe(HttpStatusCode.NotFound);
     }
 }
