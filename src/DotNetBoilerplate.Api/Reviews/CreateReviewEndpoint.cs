@@ -43,7 +43,7 @@ public class CreateReviewEndpoint : IEndpoint
         Guid Id
     );
 
-    private sealed class Request
+    internal sealed class Request
     {
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
         [Required] public int Rating { get; init; }
