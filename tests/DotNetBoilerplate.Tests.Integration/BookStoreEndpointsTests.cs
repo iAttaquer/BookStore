@@ -1,7 +1,8 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
-using Azure;
+using System.Text.Json;
 using DotNetBoilerplate.Api.BookStores;
+using DotNetBoilerplate.Application.BookStores.DTO;
 using DotNetBoilerplate.Api.Users;
 using DotNetBoilerplate.Infrastructure.DAL.Contexts;
 using DotNetBoilerplate.Tests.Integration.Setup;
@@ -13,8 +14,15 @@ using Xunit;
 namespace DotNetBoilerplate.Tests.Integration;
 
 [Collection(nameof(BookstoreEndpointsTestsCollection))]
-public class BookStoreEndpointsTests(BookstoreEndpointsTestsFixture testsFixture) : IAsyncLifetime
+public class BookStoreEndpointsTests : IAsyncLifetime
 {
+    private readonly BookstoreEndpointsTestsFixture testsFixture;
+
+    public BookStoreEndpointsTests(BookstoreEndpointsTestsFixture testsFixture)
+    {
+        this.testsFixture = testsFixture;
+    }
+
     public async Task InitializeAsync()
     {
         await SignUpAndSignIn();
@@ -178,17 +186,16 @@ public class BookStoreEndpointsTests(BookstoreEndpointsTestsFixture testsFixture
         var createFirstBookStoreResponse = await testsFixture.Client.PostAsJsonAsync("book-stores", createFirstBookStoreRequest);
 
         await ReAuthorize("email2@t.pl", "ttttttt2", "username2");
-        // testsFixture.Client.DefaultRequestHeaders.Remove("Authorization");
-        // await SignUpAndSignIn("email2@t.pl", "ttttttt2", "username2");
 
         var createSecondBookStoreResponse = await testsFixture.Client.PostAsJsonAsync("book-stores", createSecondBookStoreRequest);
         //Assert
 
-        using var serviceScope = testsFixture.ServiceProvider.CreateScope();
-        var dbContext = serviceScope.ServiceProvider.GetRequiredService<DotNetBoilerplateReadDbContext>();
+        var browseBookStoresResponse = await testsFixture.Client.GetAsync("book-stores");
 
-        var bookStores = await dbContext.BookStores.ToListAsync();
-        bookStores.Count.ShouldBe(2);
+        browseBookStoresResponse.StatusCode.ShouldBe(HttpStatusCode.OK);
+
+        var content = await browseBookStoresResponse.Content.ReadFromJsonAsync<IEnumerable<BookStoreDto>>();
+        content.Count().ShouldBe(2);
     }
 
     [Fact]
@@ -211,13 +218,8 @@ public class BookStoreEndpointsTests(BookstoreEndpointsTestsFixture testsFixture
         //Assert
         getBookStoreByIdResponse.StatusCode.ShouldBe(HttpStatusCode.OK);
 
-        using var serviceScope = testsFixture.ServiceProvider.CreateScope();
-        var dbContext = serviceScope.ServiceProvider.GetRequiredService<DotNetBoilerplateReadDbContext>();
-
-        var bookStore = await dbContext.BookStores.FirstOrDefaultAsync(x=>x.Id==createBookStoreResult.Id);
-
-        bookStore.ShouldNotBeNull();
-        bookStore!.Name.ShouldBe(bookStore.Name);
+        var content = await getBookStoreByIdResponse.Content.ReadFromJsonAsync<BookStoreDto>();
+        content.Name.ShouldBe(request.Name);
     }
 
     [Fact]
