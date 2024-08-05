@@ -18,7 +18,6 @@ public class Authenticator : IAuthenticator
     private readonly string _issuer;
     private readonly JwtSecurityTokenHandler _jwtSecurityTokenHandler = new();
     private readonly SigningCredentials _signingCredentials;
-
     public Authenticator(IOptions<AuthOptions> options, IClock clock)
     {
         _clock = clock;

@@ -11,12 +11,10 @@ namespace DotNetBoilerplate.Infrastructure.Auth;
 
 internal static class Extensions
 {
-    private const string SectionName = "auth";
-
     public static IServiceCollection AddAuth(this IServiceCollection services, IConfiguration configuration)
     {
-        services.Configure<AuthOptions>(configuration.GetRequiredSection(SectionName));
-        var options = configuration.GetOptions<AuthOptions>(SectionName);
+        services.Configure<AuthOptions>(configuration.GetRequiredSection(AuthOptions.SectionName));
+        var options = configuration.GetOptions<AuthOptions>(AuthOptions.SectionName);
 
         services
             .AddAuthentication(x => { x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme; })

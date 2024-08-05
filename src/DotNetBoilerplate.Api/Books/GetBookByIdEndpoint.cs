@@ -14,7 +14,7 @@ public class GetBookByIdEndpoint : IEndpoint
             .WithSummary("Get book by Id");
     }
 
-    private static async Task<Results<Ok<IEnumerable<BookDto>>, Ok<BookDto>, NotFound>> Handle(
+    private static async Task<Results<Ok<BookDto>, NotFound>> Handle(
         [FromRoute] Guid id,
         [FromServices] IQueryDispatcher queryDispatcher,
         CancellationToken ct
