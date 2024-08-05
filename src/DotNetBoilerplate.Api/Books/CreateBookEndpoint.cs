@@ -1,9 +1,6 @@
-﻿
-using System.ComponentModel.DataAnnotations;
-using DotNetBoilerplate.Application.BookStores.Create;
+﻿using System.ComponentModel.DataAnnotations;
 using DotNetBoilerplate.Shared.Abstractions.Commands;
 using DotNetBoilerplate.Application.Books.Create;
-using DotNetBoilerplate.Shared.Abstractions.Commands;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
@@ -41,7 +38,7 @@ public class CreateBookEndpoint : IEndpoint
         Guid Id
     );
 
-    private sealed class Request
+    internal sealed class Request
     {
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
         [Required] public string Title { get; init; }

@@ -11,6 +11,7 @@ internal sealed class BookReadModel
     public string Description { get; set; }
 
     public Guid BookStoreId { get; set; }
+    public BookStoreReadModel BookStore { get; set; }
 
     public Guid CreatedBy { get; set; }
     public UserReadModel Creator { get; set; }
