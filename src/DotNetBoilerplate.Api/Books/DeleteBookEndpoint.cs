@@ -1,7 +1,5 @@
 ﻿using DotNetBoilerplate.Application.Books.Delete;
-using DotNetBoilerplate.Application.Books.DTO;
 using DotNetBoilerplate.Shared.Abstractions.Commands;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DotNetBoilerplate.Api.Books;

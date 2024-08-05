@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
-using System.Text.Json;
 using DotNetBoilerplate.Api.BookStores;
 using DotNetBoilerplate.Application.BookStores.DTO;
 using DotNetBoilerplate.Api.Users;
@@ -167,7 +166,7 @@ public class BookStoreEndpointsTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task GivenBookStoresExists_BrowseBookStores_ShouldReturnAll()
+    public async Task GivenBookStoresExist_BrowseBookStores_ShouldReturnAll()
     {
         //Arrange
         var createFirstBookStoreRequest = new CreateBookStoreEndpoint.Request
@@ -183,11 +182,11 @@ public class BookStoreEndpointsTests : IAsyncLifetime
         };
 
         //Act
-        var createFirstBookStoreResponse = await testsFixture.Client.PostAsJsonAsync("book-stores", createFirstBookStoreRequest);
+        await testsFixture.Client.PostAsJsonAsync("book-stores", createFirstBookStoreRequest);
 
         await ReAuthorize("email2@t.pl", "ttttttt2", "username2");
 
-        var createSecondBookStoreResponse = await testsFixture.Client.PostAsJsonAsync("book-stores", createSecondBookStoreRequest);
+        await testsFixture.Client.PostAsJsonAsync("book-stores", createSecondBookStoreRequest);
         //Assert
 
         var browseBookStoresResponse = await testsFixture.Client.GetAsync("book-stores");

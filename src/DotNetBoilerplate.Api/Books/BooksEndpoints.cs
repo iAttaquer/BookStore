@@ -1,6 +1,4 @@
-﻿using DotNetBoilerplate.Api.Books;
-
-namespace DotNetBoilerplate.Api.Books;
+﻿namespace DotNetBoilerplate.Api.Books;
 
 internal static class BooksEndpoints
 {

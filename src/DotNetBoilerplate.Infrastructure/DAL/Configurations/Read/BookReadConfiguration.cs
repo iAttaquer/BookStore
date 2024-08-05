@@ -16,5 +16,8 @@ internal sealed class BookReadConfiguration : IEntityTypeConfiguration<BookReadM
             .WithMany(x=>x.CreatedBooks)
             .HasForeignKey(x=>x.CreatedBy);
 
+        builder.HasOne(x => x.BookStore)
+            .WithMany(x => x.Books)
+            .HasForeignKey(x => x.BookStoreId);
     }
 }
