@@ -1,5 +1,5 @@
 ﻿using DotNetBoilerplate.Shared.Abstractions.Domain;
-
+using DotNetBoilerplate.Core.Users.Events;
 namespace DotNetBoilerplate.Core.Users;
 
 public class User : Entity
@@ -35,7 +35,16 @@ public class User : Entity
 
     public static User New(UserId id, Email email, Username username, Password password, DateTime createdAt)
     {
-        return new User(id, email, username, password, Role.User(), createdAt, AccountType.Free());
+        var user = new User(id, email, username, password, Role.User(), createdAt, AccountType.Free());
+        user.AddDomainEvent(
+            new UserCreatedEvent
+            {
+                Id = Guid.NewGuid(),
+                OccuredOn = createdAt,
+                UserId = user.Id
+            }
+        );
+        return user;
     }
 
     public static User NewAdmin(UserId id, Email email, Password password, DateTime createdAt)

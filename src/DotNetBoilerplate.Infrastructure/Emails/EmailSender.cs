@@ -16,7 +16,9 @@ internal sealed class EmailSender : IEmailSender
         //integration with email sender provider like Sendgrid
         Console.BackgroundColor = ConsoleColor.DarkGreen;
         Console.WriteLine(
-            $"Sending email from {_emailsOptions.FromAddressEmail} to: {message.To} with subject ${message.Subject}");
+            "====================================================================================================="+
+            $"\nSending email from {_emailsOptions.FromAddressEmail} to: {message.To} with subject ${message.Subject}\n"+
+            "=====================================================================================================");
         return Task.CompletedTask;
     }
 }

@@ -34,4 +34,5 @@ internal sealed class SignUpHandler : ICommandHandler<SignUpCommand>
         var user = User.New(command.UserId, email, username, password, _clock.Now());
         await _userRepository.AddAsync(user);
     }
+    
 }
