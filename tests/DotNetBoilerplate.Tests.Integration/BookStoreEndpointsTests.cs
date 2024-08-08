@@ -32,9 +32,8 @@ public class BookStoreEndpointsTests : IAsyncLifetime
         await testsFixture.ResetDbChangesAsync();
         testsFixture.Client.DefaultRequestHeaders.Remove("Authorization");
     }
-
     private async Task SignUpAndSignIn(string mail = "email@t.pl",
-        string pass = "ttttttt", string username = "username")
+    string pass = "ttttttt", string username = "username")
     {
         var signUpRequest = new SignUpEndpoint.Request
         {

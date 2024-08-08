@@ -1,9 +1,11 @@
-﻿using DotNetBoilerplate.Core.BookStores.Exceptions;
+﻿using DotNetBoilerplate.Core.BookStores.Events;
+using DotNetBoilerplate.Core.BookStores.Exceptions;
 using DotNetBoilerplate.Core.Users;
+using DotNetBoilerplate.Shared.Abstractions.Domain;
 
 namespace DotNetBoilerplate.Core.BookStores;
 
-public sealed class BookStore
+public sealed class BookStore : Entity
 {
     private BookStore()
     {
@@ -29,7 +31,7 @@ public sealed class BookStore
         if (userAlreadyOwnsOrganization)
             throw new UserCanNotOwnMoreThanOneOrganizationException();
 
-        return new BookStore
+        var bookStore = new BookStore
         {
             Id = Guid.NewGuid(),
             Name = name,
@@ -37,6 +39,17 @@ public sealed class BookStore
             CreatedAt = createdAt,
             OwnerId = ownerId
         };
+        bookStore.AddDomainEvent(
+            new BookStoreCreatedEvent
+            {
+                Id = Guid.NewGuid(),
+                BookStoreId = bookStore.Id,
+                OwnerId = bookStore.OwnerId,
+                OccuredOn = createdAt,
+                Name = bookStore.Name
+            }
+        );
+        return bookStore;
     }
 
     public void Update(
