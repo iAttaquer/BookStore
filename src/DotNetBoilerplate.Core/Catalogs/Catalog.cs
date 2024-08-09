@@ -14,6 +14,7 @@ public sealed class Catalog
     public List<Book> Books { get; private set; }
     public Guid BookStoreId { get; private set; }
     public Guid CreatedBy { get; private set; }
+    public DateTime UpdatedAt { get; private set; }
 
     public static Catalog Create(
         string name,
@@ -21,6 +22,7 @@ public sealed class Catalog
         string description,
         Guid bookStoreId,
         Guid createdBy,
+        DateTime updatedAt,
         bool userCanNotCreateCatalog
         )
     {
@@ -34,14 +36,17 @@ public sealed class Catalog
             Genre = genre,
             Description = description,
             BookStoreId = bookStoreId,
-            CreatedBy = createdBy
+            CreatedBy = createdBy,
+            UpdatedAt = updatedAt
         };
     }
     public void Update(
         string name,
         string genre,
         string description,
-        Guid updater
+        Guid updater,
+        DateTime updatedAt
+
     )
     {
         if (updater == Guid.Empty)
@@ -50,6 +55,7 @@ public sealed class Catalog
         Name = name;
         Genre = genre;
         Description = description;
+        UpdatedAt = updatedAt;
     }
     public void AddBook(Book book)
     {

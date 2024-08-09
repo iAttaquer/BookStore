@@ -2,6 +2,7 @@
 using DotNetBoilerplate.Core.BookStores;
 using DotNetBoilerplate.Core.Users;
 using DotNetBoilerplate.Core.Reviews;
+using DotNetBoilerplate.Core.Catalogs;
 using DotNetBoilerplate.Infrastructure.DAL.Configurations.Write;
 using DotNetBoilerplate.Shared.Abstractions.Outbox;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +21,8 @@ internal sealed class DotNetBoilerplateWriteDbContext(DbContextOptions<DotNetBoi
 
     public DbSet<Review> Reviews { get; set; }
 
+    public DbSet<Catalog> Catalogs { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.HasDefaultSchema("dotNetBoilerplate");
@@ -29,5 +32,6 @@ internal sealed class DotNetBoilerplateWriteDbContext(DbContextOptions<DotNetBoi
         modelBuilder.ApplyConfiguration(new BookStoreWriteConfiguration());
         modelBuilder.ApplyConfiguration(new BookWriteConfiguration());
         modelBuilder.ApplyConfiguration(new ReviewsWriteConfiguration());
+        modelBuilder.ApplyConfiguration(new CatalogWriteConfiguration());
     }
 }
