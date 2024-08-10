@@ -37,6 +37,8 @@ internal static class Extensions
         services.TryDecorate(typeof(ICommandHandler<,>), typeof(UnitOfWorkCommandWithResultHandlerDecorator<,>));
         services.AddQueries();
 
+        services.AddHttpClient();
+
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
         return services;
