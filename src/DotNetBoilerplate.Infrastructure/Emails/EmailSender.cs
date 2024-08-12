@@ -27,11 +27,5 @@ internal sealed class EmailSender : IEmailSender
         };
 
         await _resendClient.EmailSendAsync(emailMessage);
-
-        Console.BackgroundColor = ConsoleColor.DarkGreen;
-        Console.WriteLine(
-            "====================================================================================================="+
-            $"\nSending email from {_emailsOptions.FromAddressEmail} to: {message.To} with subject ${message.Subject}\n"+
-            "=====================================================================================================");
     }
 }
