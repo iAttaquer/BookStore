@@ -21,11 +21,6 @@ internal static class Extensions
         services.AddHttpClient<IEmailSender, EmailSender>()
         .AddTransientHttpErrorPolicy(policyBuilder => policyBuilder.WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))))
         .AddTransientHttpErrorPolicy(policyBuilder => policyBuilder.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)))
-        // .ConfigureHttpClient((sp, client) =>
-        // {
-        //     var options = sp.GetRequiredService<IOptions<EmailsOptions>>().Value;
-        //     // Configure the HttpClient if needed
-        // })
         .AddTypedClient((httpClient, sp) =>
         {
             var options = sp.GetRequiredService<IOptions<EmailsOptions>>().Value;

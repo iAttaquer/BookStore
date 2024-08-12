@@ -3,4 +3,4 @@ using DotNetBoilerplate.Shared.Abstractions.Queries;
 
 namespace DotNetBoilerplate.Application.Catalogs.Browse;
 
-public sealed record BrowseCatalogsQuery : IQuery<IEnumerable<CatalogDto>>;
+public sealed record BrowseCatalogsQuery(Guid? BookStoreId = null) : IQuery<IEnumerable<CatalogDto>>;

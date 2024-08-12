@@ -10,10 +10,13 @@ internal sealed class BrowseCatalogsHandler(
 {
     public async Task<IEnumerable<CatalogDto>> HandleAsync(BrowseCatalogsQuery query)
     {
-        var books = await catalogRepository.GetAll();
-
-        return books
-            .Select(x => new CatalogDto(x.Id, x.Name, x.Genre, x.Description))
-            .ToList();
+        IEnumerable<Catalog> catalogs;
+        if (query.BookStoreId.HasValue)
+        {
+            catalogs = await catalogRepository.GetAllInBookStore(query.BookStoreId.Value);
+            return catalogs.Select(x => new CatalogDto(x.Id, x.Name, x.Genre, x.Description));
+        }
+        catalogs = await catalogRepository.GetAll();
+        return catalogs.Select(x => new CatalogDto(x.Id, x.Name, x.Genre, x.Description));
     }
 }

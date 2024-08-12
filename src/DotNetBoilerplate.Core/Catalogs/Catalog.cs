@@ -45,22 +45,25 @@ public sealed class Catalog
         string genre,
         string description,
         Guid updater,
-        DateTime updatedAt
+        DateTime updatedAt,
+        bool userCanNotUpdateCatalog
 
     )
     {
         if (updater == Guid.Empty)
             throw new UserCanNotUpdateCatalogException();
+        if (userCanNotUpdateCatalog)
+            throw new UserCanNotUpdateCatalogMoreThanOnceIn3DaysException();
 
         Name = name;
         Genre = genre;
         Description = description;
         UpdatedAt = updatedAt;
     }
-    public void AddBook(Book book)
-    {
-        if (Books.Any(x => x.Id == book.Id))
-            throw new BookAlreadyAddedToCatalogException();
-        Books.Add(book);
-    }
+    // public void AddBook(Book book)
+    // {
+    //     if (Books.Any(x => x.Id == book.Id))
+    //         throw new BookAlreadyAddedToCatalogException();
+    //     Books.Add(book);
+    // }
 }

@@ -14,7 +14,7 @@ internal sealed class DeleteCatalogEndpoint : IEndpoint
             .WithSummary("Delete catalog by Id");
     }
 
-    private static async Task<Ok<Response>> Handle(
+    private static async Task<IResult> Handle(
         Guid id,
         [FromServices] ICommandDispatcher commandDispatcher,
         CancellationToken ct
@@ -24,7 +24,6 @@ internal sealed class DeleteCatalogEndpoint : IEndpoint
 
         await commandDispatcher.DispatchAsync<DeleteCatalogCommand>(command, ct);
 
-        return TypedResults.Ok(new Response());
+        return TypedResults.NoContent();
     }
-    internal sealed record Response();
 }
