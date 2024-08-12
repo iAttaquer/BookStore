@@ -1,24 +1,31 @@
 ﻿using DotNetBoilerplate.Shared.Abstractions.Emails;
+using Microsoft.Extensions.Options;
+using Resend;
 
 namespace DotNetBoilerplate.Infrastructure.Emails;
 
 internal sealed class EmailSender : IEmailSender
 {
     private readonly EmailsOptions _emailsOptions;
+    private readonly ResendClient _resendClient;
 
-    public EmailSender(EmailsOptions options)
+    public EmailSender(EmailsOptions emailsOptions, HttpClient httpClient)
     {
-        _emailsOptions = options;
+        _emailsOptions = emailsOptions;
+        var resendOptions = Options.Create(new ResendClientOptions { ApiToken = _emailsOptions.ApiKey });
+        _resendClient = new ResendClient(resendOptions, httpClient);
     }
 
-    public Task SendEmailAsync(EmailMessage message)
+    public async Task SendEmailAsync(EmailMessageInfo message)
     {
-        //integration with email sender provider like Sendgrid
-        Console.BackgroundColor = ConsoleColor.DarkGreen;
-        Console.WriteLine(
-            "====================================================================================================="+
-            $"\nSending email from {_emailsOptions.FromAddressEmail} to: {message.To} with subject ${message.Subject}\n"+
-            "=====================================================================================================");
-        return Task.CompletedTask;
+        var emailMessage = new EmailMessage
+        {
+            From = _emailsOptions.FromAddressEmail,
+            To = message.To,
+            Subject = message.Subject,
+            TextBody = message.TextBody
+        };
+
+        await _resendClient.EmailSendAsync(emailMessage);
     }
 }

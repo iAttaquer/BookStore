@@ -4,4 +4,5 @@ internal sealed class EmailsOptions
 {
     public string FromAddressEmail { get; set; }
     public string EmailProviderAccessKey { get; set; }
+    public string ApiKey { get; set; }
 }
