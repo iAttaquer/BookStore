@@ -60,10 +60,4 @@ public sealed class Catalog
         Description = description;
         UpdatedAt = updatedAt;
     }
-    // public void AddBook(Book book)
-    // {
-    //     if (Books.Any(x => x.Id == book.Id))
-    //         throw new BookAlreadyAddedToCatalogException();
-    //     Books.Add(book);
-    // }
 }

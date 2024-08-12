@@ -24,7 +24,10 @@ var app = builder.Build();
 app.MapUsersEndpoints();
 app.MapBookStoresEndpoints();
 app.MapBookEndpoints();
+<<<<<<< HEAD
 app.MapReviewEndpoints();
+=======
+>>>>>>> 14b5db90cce474f25e32d9df42e17307869a3001
 app.MapCatalogsEndpoints();
 
 app.UseInfrastructure();

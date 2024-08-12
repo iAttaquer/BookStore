@@ -21,7 +21,6 @@ internal sealed class CreateCatalogHandler(
             throw new BookStoreNotFoundException();
 
         bool userCanNotCreateCatalog = await catalogRepository.UserCanNotAddCatalogAsync(bookStore.Id);
-
         var catalog = Catalog.Create(
             command.Name,
             command.Genre,
