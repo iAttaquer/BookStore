@@ -22,7 +22,8 @@ internal sealed class UpdateCartHandler(
 
         var item = new CartItem(
             command.BookId,
-            command.Quantity
+            command.Quantity,
+            cart.Id
         );
 
         await cartRepository.UpdateCartAsync(cart, item);

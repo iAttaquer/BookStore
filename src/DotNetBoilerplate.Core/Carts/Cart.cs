@@ -5,6 +5,8 @@ namespace DotNetBoilerplate.Core.Carts;
 
 public class Quantity
 {
+    private Quantity(){}
+    
     public Quantity(int value){
         if(value < 1) throw new IncorrectQuantityOfBooksException();
         Value = value;
@@ -15,13 +17,19 @@ public class Quantity
 
 public class CartItem
 {
-    public CartItem(Guid bookId, Quantity quantity){
+    private CartItem(){}
+
+    public CartItem(Guid bookId, Quantity quantity, Guid cartId){
+        Id = Guid.NewGuid();
         BookId = bookId;
         Quantity = quantity;
+        CartId = cartId;
     }
 
+    public Guid Id { get; private set; }
     public Guid BookId { get; private set; }
     public Quantity Quantity { get; private set; }
+    public Guid CartId { get; private set; }
 
     public void UpdateItem(Quantity quantity){
         Quantity = quantity;
