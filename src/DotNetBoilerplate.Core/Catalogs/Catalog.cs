@@ -1,5 +1,6 @@
 ﻿using DotNetBoilerplate.Core.Books;
 using DotNetBoilerplate.Core.Catalogs.Exceptions;
+using DotNetBoilerplate.Core.Users;
 
 namespace DotNetBoilerplate.Core.Catalogs;
 
@@ -11,9 +12,9 @@ public sealed class Catalog
     public string Name { get; private set; }
     public string Genre { get; private set; }
     public string Description { get; private set; }
-    public List<Book> Books { get; private set; }
+    public List<Book> Books { get; set; }
     public Guid BookStoreId { get; private set; }
-    public Guid CreatedBy { get; private set; }
+    public UserId CreatedBy { get; private set; }
     public DateTime UpdatedAt { get; private set; }
 
     public static Catalog Create(
@@ -35,6 +36,7 @@ public sealed class Catalog
             Name = name,
             Genre = genre,
             Description = description,
+            Books = new List<Book>(),
             BookStoreId = bookStoreId,
             CreatedBy = createdBy,
             UpdatedAt = updatedAt

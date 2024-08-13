@@ -15,12 +15,13 @@ internal sealed class RemoveBookFromCatalogHandler(
     public async Task HandleAsync(RemoveBookFromCatalogCommand command)
     {
         var catalog = await catalogRepository.GetByIdAsync(command.CatalogId);
-        var book = await bookRepository.GetByIdAsync(command.BookId);
-
         if (catalog is null)
             throw new CatalogNotFoundException();
+
+        var book = await bookRepository.GetByIdAsync(command.BookId);
         if (book is null)
             throw new BookNotFoundException();
+
         if (catalog.CreatedBy != context.Identity.Id)
             throw new UserCanNotRemoveBookFromCatalogException();
 

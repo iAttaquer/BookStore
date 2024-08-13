@@ -71,6 +71,38 @@ namespace DotNetBoilerplate.Infrastructure.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Catalogs",
+                schema: "dotNetBoilerplate",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
+                    Genre = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
+                    Description = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
+                    BookStoreId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uuid", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Catalogs", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Catalogs_BookStores_BookStoreId",
+                        column: x => x.BookStoreId,
+                        principalSchema: "dotNetBoilerplate",
+                        principalTable: "BookStores",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Catalogs_Users_CreatedBy",
+                        column: x => x.CreatedBy,
+                        principalSchema: "dotNetBoilerplate",
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Books",
                 schema: "dotNetBoilerplate",
                 columns: table => new
@@ -82,7 +114,8 @@ namespace DotNetBoilerplate.Infrastructure.DAL.Migrations
                     Year = table.Column<int>(type: "integer", nullable: false),
                     Description = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
                     BookStoreId = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatedBy = table.Column<Guid>(type: "uuid", nullable: false)
+                    CreatedBy = table.Column<Guid>(type: "uuid", nullable: false),
+                    CatalogId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -95,10 +128,43 @@ namespace DotNetBoilerplate.Infrastructure.DAL.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
+                        name: "FK_Books_Catalogs_CatalogId",
+                        column: x => x.CatalogId,
+                        principalSchema: "dotNetBoilerplate",
+                        principalTable: "Catalogs",
+                        principalColumn: "Id");
+                    table.ForeignKey(
                         name: "FK_Books_Users_CreatedBy",
                         column: x => x.CreatedBy,
                         principalSchema: "dotNetBoilerplate",
                         principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CatalogBooks",
+                schema: "dotNetBoilerplate",
+                columns: table => new
+                {
+                    BookId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CatalogId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CatalogBooks", x => new { x.BookId, x.CatalogId });
+                    table.ForeignKey(
+                        name: "FK_CatalogBooks_Books_BookId",
+                        column: x => x.BookId,
+                        principalSchema: "dotNetBoilerplate",
+                        principalTable: "Books",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CatalogBooks_Catalogs_CatalogId",
+                        column: x => x.CatalogId,
+                        principalSchema: "dotNetBoilerplate",
+                        principalTable: "Catalogs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -141,6 +207,12 @@ namespace DotNetBoilerplate.Infrastructure.DAL.Migrations
                 column: "BookStoreId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Books_CatalogId",
+                schema: "dotNetBoilerplate",
+                table: "Books",
+                column: "CatalogId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Books_CreatedBy",
                 schema: "dotNetBoilerplate",
                 table: "Books",
@@ -152,6 +224,24 @@ namespace DotNetBoilerplate.Infrastructure.DAL.Migrations
                 table: "BookStores",
                 column: "OwnerId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CatalogBooks_CatalogId",
+                schema: "dotNetBoilerplate",
+                table: "CatalogBooks",
+                column: "CatalogId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Catalogs_BookStoreId",
+                schema: "dotNetBoilerplate",
+                table: "Catalogs",
+                column: "BookStoreId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Catalogs_CreatedBy",
+                schema: "dotNetBoilerplate",
+                table: "Catalogs",
+                column: "CreatedBy");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reviews_BookId_CreatedBy",
@@ -185,6 +275,10 @@ namespace DotNetBoilerplate.Infrastructure.DAL.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "CatalogBooks",
+                schema: "dotNetBoilerplate");
+
+            migrationBuilder.DropTable(
                 name: "OutboxMessages",
                 schema: "dotNetBoilerplate");
 
@@ -194,6 +288,10 @@ namespace DotNetBoilerplate.Infrastructure.DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "Books",
+                schema: "dotNetBoilerplate");
+
+            migrationBuilder.DropTable(
+                name: "Catalogs",
                 schema: "dotNetBoilerplate");
 
             migrationBuilder.DropTable(

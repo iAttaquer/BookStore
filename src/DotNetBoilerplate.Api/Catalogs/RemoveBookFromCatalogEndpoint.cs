@@ -11,19 +11,18 @@ internal sealed class RemoveBookFromCatalogEndpoint : IEndpoint
 {
     public static void Map(IEndpointRouteBuilder app)
     {
-        app.MapDelete("{catalogId:guid}/books/{id:guid}", Handle)
+        app.MapDelete("{catalogId:guid}/books/{bookId:guid}", Handle)
             .RequireAuthorization()
             .WithSummary("Remove book from catalog by Id");
     }
 
     private static async Task<IResult> Handle(
-        [FromRoute] Guid catalogId,
-        [FromBody] Request request,
+        Guid catalogId, Guid bookId,
         [FromServices] ICommandDispatcher commandDispatcher,
         CancellationToken ct
     )
     {
-        var command = new RemoveBookFromCatalogCommand(catalogId, request.BookId);
+        var command = new RemoveBookFromCatalogCommand(catalogId, bookId);
 
         await commandDispatcher.DispatchAsync<RemoveBookFromCatalogCommand>(command, ct);
 
