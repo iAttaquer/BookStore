@@ -10,7 +10,8 @@ internal sealed class DotNetBoilerplateReadDbContext(DbContextOptions<DotNetBoil
     public DbSet<UserReadModel> Users { get; set; }
     public DbSet<BookReadModel> Books { get; set; }
     public DbSet<ReviewReadModel> Reviews { get; set; }
-
+    public DbSet<CartReadModel> Carts {get; set; }
+    public DbSet<CartItemReadModel> CartItem { get; set;}
     public DbSet<BookStoreReadModel> BookStores { get; set; }
 
 
@@ -23,5 +24,7 @@ internal sealed class DotNetBoilerplateReadDbContext(DbContextOptions<DotNetBoil
         modelBuilder.ApplyConfiguration(new BookReadConfiguration());
         modelBuilder.ApplyConfiguration(new ReviewReadConfiguration());
         modelBuilder.ApplyConfiguration(new BookStoreReadConfiguration());
+        modelBuilder.ApplyConfiguration(new CartReadConfiguration());
+        modelBuilder.ApplyConfiguration(new CartItemReadConfiguration());
     }
 }

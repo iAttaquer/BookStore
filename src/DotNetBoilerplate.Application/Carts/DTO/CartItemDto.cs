@@ -3,9 +3,9 @@ using DotNetBoilerplate.Core.Users;
 
 namespace DotNetBoilerplate.Application.Carts.DTO;
 
-public sealed record CartDto(
+public sealed record CartItemDto(
     Guid Id,
-    List<CartItemDto> Items,
-    Guid Owner,
-    DateTime CreatedAt
+    Guid BookId,
+    int Quantity,
+    Guid CartId
 );

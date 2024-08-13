@@ -9,4 +9,5 @@ internal sealed class UserReadModel
     public List<BookReadModel> CreatedBooks { get; set; }
     public List<ReviewReadModel> CreatedReviews { get; set; }
     public BookStoreReadModel BookStore { get; set; }
+    public CartReadModel Cart { get; set; }
 }
