@@ -5,6 +5,7 @@ using DotNetBoilerplate.Core.Reviews;
 using DotNetBoilerplate.Infrastructure.DAL.Configurations.Write;
 using DotNetBoilerplate.Shared.Abstractions.Outbox;
 using Microsoft.EntityFrameworkCore;
+using DotNetBoilerplate.Core.Carts;
 
 namespace DotNetBoilerplate.Infrastructure.DAL.Contexts;
 
@@ -19,6 +20,7 @@ internal sealed class DotNetBoilerplateWriteDbContext(DbContextOptions<DotNetBoi
     public DbSet<Book> Books { get; set; }
 
     public DbSet<Review> Reviews { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
