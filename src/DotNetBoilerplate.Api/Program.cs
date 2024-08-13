@@ -7,6 +7,7 @@ using DotNetBoilerplate.Application;
 using DotNetBoilerplate.Core;
 using DotNetBoilerplate.Infrastructure;
 using DotNetBoilerplate.Shared;
+using DotNetBoilerplate.Api.Carts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +25,7 @@ app.MapUsersEndpoints();
 app.MapBookStoresEndpoints();
 app.MapBookEndpoints();
 app.MapReviewEndpoints();
+app.MapCartsEndpoints();
 
 app.UseInfrastructure();
 
