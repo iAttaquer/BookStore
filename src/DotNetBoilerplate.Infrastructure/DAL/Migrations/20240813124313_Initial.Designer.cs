@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DotNetBoilerplate.Infrastructure.DAL.Migrations
 {
     [DbContext(typeof(DotNetBoilerplateWriteDbContext))]
-    [Migration("20240731074754_Initial")]
+    [Migration("20240813124313_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -25,6 +25,21 @@ namespace DotNetBoilerplate.Infrastructure.DAL.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("BookCatalog", b =>
+                {
+                    b.Property<Guid>("BookId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CatalogId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("BookId", "CatalogId");
+
+                    b.HasIndex("CatalogId");
+
+                    b.ToTable("CatalogBooks", "dotNetBoilerplate");
+                });
 
             modelBuilder.Entity("DotNetBoilerplate.Core.BookStores.BookStore", b =>
                 {
@@ -64,6 +79,9 @@ namespace DotNetBoilerplate.Infrastructure.DAL.Migrations
                     b.Property<Guid>("BookStoreId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("CatalogId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("CreatedBy")
                         .HasColumnType("uuid");
 
@@ -93,9 +111,49 @@ namespace DotNetBoilerplate.Infrastructure.DAL.Migrations
 
                     b.HasIndex("BookStoreId");
 
+                    b.HasIndex("CatalogId");
+
                     b.HasIndex("CreatedBy");
 
                     b.ToTable("Books", "dotNetBoilerplate");
+                });
+
+            modelBuilder.Entity("DotNetBoilerplate.Core.Catalogs.Catalog", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BookStoreId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)");
+
+                    b.Property<string>("Genre")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookStoreId");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.ToTable("Catalogs", "dotNetBoilerplate");
                 });
 
             modelBuilder.Entity("DotNetBoilerplate.Core.Reviews.Review", b =>
@@ -196,6 +254,21 @@ namespace DotNetBoilerplate.Infrastructure.DAL.Migrations
                     b.ToTable("OutboxMessages", "dotNetBoilerplate");
                 });
 
+            modelBuilder.Entity("BookCatalog", b =>
+                {
+                    b.HasOne("DotNetBoilerplate.Core.Books.Book", null)
+                        .WithMany()
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DotNetBoilerplate.Core.Catalogs.Catalog", null)
+                        .WithMany()
+                        .HasForeignKey("CatalogId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("DotNetBoilerplate.Core.BookStores.BookStore", b =>
                 {
                     b.HasOne("DotNetBoilerplate.Core.Users.User", null)
@@ -204,6 +277,25 @@ namespace DotNetBoilerplate.Infrastructure.DAL.Migrations
                 });
 
             modelBuilder.Entity("DotNetBoilerplate.Core.Books.Book", b =>
+                {
+                    b.HasOne("DotNetBoilerplate.Core.BookStores.BookStore", null)
+                        .WithMany()
+                        .HasForeignKey("BookStoreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DotNetBoilerplate.Core.Catalogs.Catalog", null)
+                        .WithMany("Books")
+                        .HasForeignKey("CatalogId");
+
+                    b.HasOne("DotNetBoilerplate.Core.Users.User", null)
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DotNetBoilerplate.Core.Catalogs.Catalog", b =>
                 {
                     b.HasOne("DotNetBoilerplate.Core.BookStores.BookStore", null)
                         .WithMany()
@@ -231,6 +323,11 @@ namespace DotNetBoilerplate.Infrastructure.DAL.Migrations
                         .HasForeignKey("CreatedBy")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("DotNetBoilerplate.Core.Catalogs.Catalog", b =>
+                {
+                    b.Navigation("Books");
                 });
 #pragma warning restore 612, 618
         }

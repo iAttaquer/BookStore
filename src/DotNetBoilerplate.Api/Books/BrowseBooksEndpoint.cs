@@ -14,7 +14,7 @@ public class BrowseBooksEndpoint : IEndpoint
             .WithSummary("Browse books with optional BookStoreId parameter");
     }
 
-    private static async Task<Results<Ok<IEnumerable<BookDto>>, Ok<BookDto>, NotFound>> Handle(
+    private static async Task<Results<Ok<IEnumerable<BookDto>>, NotFound>> Handle(
         [FromQuery] Guid? bookStoreId,
         [FromServices] IQueryDispatcher queryDispatcher,
         CancellationToken ct
