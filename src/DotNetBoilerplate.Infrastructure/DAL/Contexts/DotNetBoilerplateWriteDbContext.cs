@@ -5,6 +5,7 @@ using DotNetBoilerplate.Core.Reviews;
 using DotNetBoilerplate.Infrastructure.DAL.Configurations.Write;
 using DotNetBoilerplate.Shared.Abstractions.Outbox;
 using Microsoft.EntityFrameworkCore;
+using DotNetBoilerplate.Core.Carts;
 
 namespace DotNetBoilerplate.Infrastructure.DAL.Contexts;
 
@@ -20,6 +21,11 @@ internal sealed class DotNetBoilerplateWriteDbContext(DbContextOptions<DotNetBoi
 
     public DbSet<Review> Reviews { get; set; }
 
+    public DbSet<Cart> Carts { get; set; }
+
+    public DbSet<CartItem> CartItems { get; set; }
+
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.HasDefaultSchema("dotNetBoilerplate");
@@ -29,5 +35,7 @@ internal sealed class DotNetBoilerplateWriteDbContext(DbContextOptions<DotNetBoi
         modelBuilder.ApplyConfiguration(new BookStoreWriteConfiguration());
         modelBuilder.ApplyConfiguration(new BookWriteConfiguration());
         modelBuilder.ApplyConfiguration(new ReviewsWriteConfiguration());
+        modelBuilder.ApplyConfiguration(new CartsWriteConfiguration());
+        modelBuilder.ApplyConfiguration(new CartItemsWriteConfiguration());
     }
 }
